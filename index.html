@@ -44,14 +44,15 @@
     .spacer { height: 56px; }
 
     /* HERO */
-    .hero { background: #f0ec3a; min-height: 100vh; display: grid; grid-template-rows: 1fr auto; position: relative; overflow: hidden; border-bottom: 4px solid #111; }
+    .hero { background: #fff; min-height: 100vh; display: grid; grid-template-rows: 1fr auto; position: relative; overflow: hidden; border-bottom: 4px solid #111; }
     .hero-content { padding: 60px 48px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
-    .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(0,0,0,0.4); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
     .hero-eyebrow::before { content:''; width:32px; height:2px; background:#111; }
     .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px,14vw,180px); line-height: 0.85; }
     .hero-title .out { -webkit-text-stroke: 4px #111; color: transparent; }
     .hero-title .red { color: #e82c2c; }
     .hero-title .blue { color: #0057ff; }
+    .hero-title .yellow { color: #f0ec3a; -webkit-text-stroke: 0; }
     .hero-sub-row { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 40px; gap: 40px; flex-wrap: wrap; }
     .hero-desc { font-size: 15px; line-height: 1.75; color: rgba(0,0,0,0.65); font-weight: 300; max-width: 420px; }
     .hero-desc strong { font-weight: 700; color: #111; }
@@ -108,7 +109,7 @@
     .mini-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-top: 3px; }
 
     /* PROJECTS */
-    .projects-section { background: #f0ec3a; border-bottom: 4px solid #111; }
+    .projects-section { background: #fff; border-bottom: 4px solid #111; }
     .proj-header { padding: 48px 48px 36px; display: flex; justify-content: space-between; align-items: baseline; }
     .proj-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,7vw,96px); line-height: 1; color: #111; }
     .proj-header-sub { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.4); }
@@ -135,7 +136,7 @@
     .skill-block { padding: 44px 48px; border-right: 4px solid #222; border-bottom: 4px solid #222; }
     .skill-block:nth-child(2n) { border-right: none; }
     .skill-block:nth-last-child(-n+2) { border-bottom: none; }
-    .sb-blue{background:#0057ff} .sb-dark{background:#111} .sb-red{background:#e82c2c} .sb-yellow{background:#f0ec3a}
+    .sb-blue{background:#0057ff} .sb-dark{background:#111} .sb-red{background:#e82c2c} .sb-white{background:#fff}
     .skill-block-title { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 0.04em; margin-bottom: 22px; }
     .tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 16px; border: 2px solid rgba(255,255,255,0.65); color: #fff; font-weight: 700; transition: background 0.2s; }
@@ -145,13 +146,14 @@
 
     /* AIMS */
     .aims-section { border-bottom: 4px solid #111; }
-    .aims-header { background: #f0ec3a; padding: 60px 48px 0; }
-    .aims-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,7vw,96px); line-height: 0.9; color: #111; }
-    .aims-header-title .out { -webkit-text-stroke: 3px #111; color: transparent; }
+    .aims-header { background: #111; padding: 60px 48px 0; }
+    .aims-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,7vw,96px); line-height: 0.9; color: #fff; }
+    .aims-header-title .yellow { color: #f0ec3a; }
+    .aims-header-title .out { -webkit-text-stroke: 3px #fff; color: transparent; }
     .aims-grid { display: grid; grid-template-columns: repeat(3,1fr); border-top: 4px solid #111; }
     .aim { padding: 52px 44px; border-right: 4px solid #111; position: relative; overflow: hidden; min-height: 420px; display: flex; flex-direction: column; justify-content: space-between; }
     .aim:last-child { border-right: none; }
-    .a-black{background:#111} .a-red{background:#e82c2c} .a-yellow{background:#f0ec3a}
+    .a-black{background:#111} .a-red{background:#e82c2c} .a-white{background:#fff}
     .aim-num-bg { font-family: 'Bebas Neue', sans-serif; font-size: 180px; position: absolute; top: -20px; right: -10px; line-height: 1; user-select: none; opacity: 0.05; }
     .aim-icon { font-size: 44px; margin-bottom: 20px; }
     .aim-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 0.92; margin-bottom: 18px; }
@@ -204,15 +206,15 @@
     .avail-sub { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.5); margin-top: 6px; }
 
     /* FOOTER */
-    .footer { background: #f0ec3a; display: grid; grid-template-columns: auto 1fr auto; align-items: center; border-top: 4px solid #111; }
-    .foot-logo { font-family: 'Bebas Neue', sans-serif; font-size: 54px; color: #111; padding: 18px 28px; border-right: 4px solid #111; line-height: 1; }
+    .footer { background: #111; display: grid; grid-template-columns: auto 1fr auto; align-items: center; border-top: 4px solid #111; }
+    .foot-logo { font-family: 'Bebas Neue', sans-serif; font-size: 54px; color: #f0ec3a; padding: 18px 28px; border-right: 4px solid #222; line-height: 1; }
     .foot-mid { padding: 0 32px; }
-    .foot-copy { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.4); }
-    .foot-links { display: flex; border-left: 4px solid #111; }
-    .foot-links a { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.06em; padding: 22px 24px; color: #111; text-decoration: none; border-right: 4px solid #111; display: flex; align-items: center; transition: background 0.2s, color 0.2s; }
-    .foot-links a:hover { background: #111; color: #f0ec3a; }
+    .foot-copy { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #444; }
+    .foot-links { display: flex; border-left: 4px solid #222; }
+    .foot-links a { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.06em; padding: 22px 24px; color: #666; text-decoration: none; border-right: 4px solid #222; display: flex; align-items: center; transition: background 0.2s, color 0.2s; }
+    .foot-links a:hover { color: #f0ec3a; }
     .foot-links a:last-child { background: #e82c2c; color: #fff; border-right: none; }
-    .foot-links a:last-child:hover { background: #111; }
+    .foot-links a:last-child:hover { background: #0057ff; }
 
     body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9990; opacity:0.35; }
 
@@ -269,7 +271,7 @@
       </div>
       <div class="hero-btns reveal d3">
         <a href="#projects" class="hbtn hbtn-fill">View My Work</a>
-        <a href="cv.pdf" class="hbtn hbtn-out" download>Download CV</a>
+        <a href="cv.pdf" class="hbtn hbtn-out" download="CV_Maria_Jose_Colmenarez.pdf">Download CV</a>
       </div>
     </div>
   </div>
@@ -335,19 +337,19 @@
   </div>
   <div class="proj-mosaic">
     <div class="proj-card pc-white reveal">
-      <div><div class="proj-idx" style="color:#111">01 / NLP · MACHINE LEARNING</div><div class="proj-icon">🧠</div><div class="proj-name" style="color:#111">Propaganda<br>Technique<br>Detector</div><div class="proj-tech" style="color:#111">RoBERTa · PyTorch · NLP<br>Multi-label classification · News analysis</div></div>
+      <div><div class="proj-idx" style="color:#111">01 / NLP · MACHINE LEARNING · Jan 2026 – Present</div><div class="proj-icon">🧠</div><div class="proj-name" style="color:#111">Propaganda<br>Technique<br>Detector</div><div class="proj-tech" style="color:#111">RoBERTa · PyTorch · HuggingFace<br>14-class NLP classifier · 0.60 F1 score<br>6.1K annotated spans · +8.1pts vs baseline</div></div>
       <div class="proj-arrow" style="color:#111">↗</div><div class="proj-ghost" style="color:#111">AI</div>
     </div>
     <div class="proj-card pc-pink reveal d1">
-      <div><div class="proj-idx" style="color:#111">02 / ML · WEB</div><div class="proj-icon">💻</div><div class="proj-name" style="color:#111">FindMyPC<br>Price Engine</div><div class="proj-tech" style="color:#111">Random Forest · Streamlit<br>Price prediction · Python</div></div>
+      <div><div class="proj-idx" style="color:#111">02 / ML · WEB · Feb – May 2025</div><div class="proj-icon">💻</div><div class="proj-name" style="color:#111">FindMyPC<br>Price Engine</div><div class="proj-tech" style="color:#111">Random Forest · Streamlit · SQL · Python<br>€366 RMSE on 4K+ products<br>Real-time price prediction app</div></div>
       <div class="proj-arrow" style="color:#111">↗</div><div class="proj-ghost" style="color:#111">ML</div>
     </div>
     <div class="proj-card pc-purple reveal d2">
-      <div><div class="proj-idx" style="color:rgba(255,255,255,0.5)">03 / CLOUD · FULL-STACK</div><div class="proj-icon">☁️</div><div class="proj-name" style="color:#fff">Expense<br>Manager</div><div class="proj-tech" style="color:rgba(255,255,255,0.8)">React · Azure · REST API<br>Full-stack · Cloud deployment</div></div>
+      <div><div class="proj-idx" style="color:rgba(255,255,255,0.5)">03 / CLOUD · FULL-STACK · Oct – Dec 2024</div><div class="proj-icon">☁️</div><div class="proj-name" style="color:#fff">Expense<br>Manager</div><div class="proj-tech" style="color:rgba(255,255,255,0.85)">React · Azure · MySQL · Netlify<br>6 users · 30+ transactions · 15+ file uploads<br>-30% user interaction time</div></div>
       <div class="proj-arrow" style="color:#fff">↗</div><div class="proj-ghost" style="color:#fff">$</div>
     </div>
     <div class="proj-card pc-black reveal d3">
-      <div><div class="proj-idx" style="color:#555">04 / iOS · MOBILE</div><div class="proj-icon">📍</div><div class="proj-name" style="color:#f0ec3a">MapMy<br>Culture</div><div class="proj-tech" style="color:#666">SwiftUI · iOS · MapKit<br>Cultural discovery · Kode with Klossy</div></div>
+      <div><div class="proj-idx" style="color:#555">04 / iOS · MOBILE · Summer 2023</div><div class="proj-icon">📍</div><div class="proj-name" style="color:#f0ec3a">MapMy<br>Culture</div><div class="proj-tech" style="color:#888">SwiftUI · iOS · MapKit · GitHub<br>50 countries · food, sports & capitals<br>Kode with Klossy scholarship</div></div>
       <div class="proj-arrow" style="color:#f0ec3a">↗</div><div class="proj-ghost" style="color:#f0ec3a">✦</div>
     </div>
     <div class="proj-card pc-green reveal d4">
@@ -368,6 +370,8 @@
     <div class="skill-block sb-blue reveal">
       <div class="skill-block-title" style="color:#fff">Languages</div>
       <div class="tags"><span class="tag">Java</span><span class="tag">Python</span><span class="tag">C</span><span class="tag">JavaScript</span><span class="tag">Swift</span><span class="tag">SQL</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Bash</span></div>
+      <div class="skill-block-title" style="color:rgba(255,255,255,0.5); font-size:20px; margin-top:20px; margin-bottom:12px;">Human Languages</div>
+      <div class="tags"><span class="tag">Spanish (Native)</span><span class="tag">English (Fluent)</span></div>
     </div>
     <div class="skill-block sb-dark reveal d1">
       <div class="skill-block-title" style="color:#f0ec3a">ML & Data</div>
@@ -377,16 +381,16 @@
       <div class="skill-block-title" style="color:#fff">Cloud & DevOps</div>
       <div class="tags"><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Serverless</span><span class="tag">AWS Compute</span><span class="tag">AWS Storage</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span><span class="tag">Linux</span></div>
     </div>
-    <div class="skill-block sb-yellow reveal d3">
+    <div class="skill-block sb-white reveal d3">
       <div class="skill-block-title" style="color:#111">Frameworks & Tools</div>
-      <div class="tags"><span class="tag tag-dark">React</span><span class="tag tag-dark">SwiftUI</span><span class="tag tag-dark">Node.js</span><span class="tag tag-dark">REST APIs</span><span class="tag tag-dark">MySQL</span><span class="tag tag-dark">PostgreSQL</span><span class="tag tag-dark">VS Code</span><span class="tag tag-dark">IntelliJ</span><span class="tag tag-dark">Figma</span></div>
+      <div class="tags"><span class="tag tag-dark">React</span><span class="tag tag-dark">SwiftUI</span><span class="tag tag-dark">Node.js</span><span class="tag tag-dark">REST APIs</span><span class="tag tag-dark">MySQL</span><span class="tag tag-dark">PostgreSQL</span><span class="tag tag-dark">VS Code</span><span class="tag tag-dark">IntelliJ</span><span class="tag tag-dark">Figma</span><span class="tag tag-dark">Jupyter</span><span class="tag tag-dark">Arduino</span><span class="tag tag-dark">Raspberry Pi</span></div>
     </div>
   </div>
 </section>
 
 <!-- AIMS -->
 <section class="aims-section">
-  <div class="aims-header"><div class="aims-header-title reveal">WHAT I'M<br><span class="out">AIMING</span> FOR</div></div>
+  <div class="aims-header"><div class="aims-header-title reveal">WHAT I'M<br><span class="out">AIMING</span> <span class="yellow">FOR</span></div></div>
   <div class="aims-grid">
     <div class="aim a-black reveal-left">
       <div class="aim-num-bg" style="color:#fff">01</div>
@@ -400,11 +404,11 @@
       <div class="aim-title" style="color:#fff">Software<br>Development</div>
       <div class="aim-body" style="color:#fff">Backend, full-stack, or systems roles. Java is my first love — I want to build scalable, clean architecture that lasts. I care about design patterns, performance, and code that reads like prose.</div>
     </div>
-    <div class="aim a-yellow reveal-right">
+    <div class="aim a-white reveal-right">
       <div class="aim-num-bg" style="color:#111">03</div>
       <div class="aim-icon">☁️</div>
       <div class="aim-title" style="color:#111">Cloud &<br>DevOps</div>
-      <div class="aim-body" style="color:#111">AWS and Azure have made me genuinely curious about infrastructure at scale. I want to understand deployments, pipelines, and distributed systems — the invisible layer that makes everything else possible.</div>
+      <div class="aim-body" style="color:#333">AWS and Azure have made me genuinely curious about infrastructure at scale. I want to understand deployments, pipelines, and distributed systems — the invisible layer that makes everything else possible.</div>
     </div>
   </div>
 </section>
@@ -416,23 +420,28 @@
     <div class="bg-left reveal-left">
       <div class="bg-item">
         <div class="bg-role">B.Sc. Computer Science & Artificial Intelligence</div>
-        <div class="bg-where">IE University · Madrid, Spain · 2023 – 2027</div>
-        <div class="bg-desc">Studying algorithms, machine learning, databases, cloud computing, systems programming, and software engineering. Coursework spans Python, Java, C, and applied AI. One of the few international CS/AI programs in Europe with a strong entrepreneurial edge.</div>
+        <div class="bg-where">IE University · Segovia / Madrid, Spain · 2023 – 2027</div>
+        <div class="bg-desc">Relevant coursework: Machine Learning, Data Structures, Algorithms, Cloud Computing, DevOps. Working across Python, Java, C, and applied AI in academic and independent projects.</div>
+      </div>
+      <div class="bg-item">
+        <div class="bg-role">IE Coding Club — Events Coordinator</div>
+        <div class="bg-where">IE University · October 2024 – June 2025</div>
+        <div class="bg-desc">Organised coding workshops, hackathons, and technical speaker sessions for the IE student community. Built a space for developers to collaborate and grow together.</div>
       </div>
       <div class="bg-item">
         <div class="bg-role">Kode With Klossy — Scholar & iOS Developer</div>
-        <div class="bg-where">Kode With Klossy · 2023</div>
-        <div class="bg-desc">Selected as a scholar in a competitive coding programme empowering young women in tech. Built MapMyCulture — an iOS app using SwiftUI and MapKit that helps communities discover and share cultural spaces around them.</div>
+        <div class="bg-where">Kode With Klossy · July – August 2023</div>
+        <div class="bg-desc">Selected scholar in a competitive coding programme for young women in tech. Built MapMyCulture — an iOS app in SwiftUI displaying cultural info (food, sports, capitals) for 50 countries with interactive navigation.</div>
       </div>
       <div class="bg-item">
         <div class="bg-role">AWS Educate — Cloud Certifications</div>
-        <div class="bg-where">Amazon Web Services · 2024</div>
-        <div class="bg-desc">Earned three AWS Educate badges: Serverless, Compute, and Storage. Practical hands-on knowledge of cloud architecture, deployment patterns, and infrastructure design on the world's leading cloud platform.</div>
+        <div class="bg-where">Amazon Web Services · Oct – Nov 2024</div>
+        <div class="bg-desc">Earned three AWS Educate badges: Getting Started with Serverless (Nov 2024), Compute (Oct 2024), and Storage (Oct 2024). Practical cloud architecture and deployment knowledge.</div>
       </div>
       <div class="bg-item">
         <div class="bg-role">Seeking Internship — 2026</div>
         <div class="bg-where">ML · Software Engineering · Cloud · Data Engineering</div>
-        <div class="bg-desc">Actively looking for internship roles in machine learning, backend software development, cloud/DevOps, or data engineering. Available across Europe and open to remote.</div>
+        <div class="bg-desc">Eligible to sign an internship agreement via IE University. Actively looking for roles in machine learning, backend software development, cloud/DevOps, or data engineering. Open to remote and across Europe.</div>
       </div>
     </div>
     <div class="bg-right">
