@@ -122,7 +122,7 @@
     .proj-idx { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.14em; opacity: 0.5; margin-bottom: 16px; }
     .proj-icon { font-size: 32px; margin-bottom: 16px; }
     .proj-name { font-family: 'Bebas Neue', sans-serif; font-size: 42px; line-height: 0.92; margin-bottom: 12px; }
-    .proj-tech { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.9; opacity: 0.85; }
+    .proj-tech { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; line-height: 2.1; opacity: 1; }
     .proj-arrow { font-family: 'Bebas Neue', sans-serif; font-size: 32px; opacity: 0.2; align-self: flex-end; transition: opacity 0.2s, transform 0.2s; }
     .proj-card:hover .proj-arrow { opacity: 0.7; transform: translate(6px,-6px); }
     .proj-ghost { font-family: 'Bebas Neue', sans-serif; font-size: 140px; position: absolute; bottom: -26px; right: -12px; opacity: 0.04; user-select: none; line-height: 1; }
@@ -137,7 +137,8 @@
     .skill-block:nth-child(2n) { border-right: none; }
     .skill-block:nth-last-child(-n+2) { border-bottom: none; }
     .sb-blue{background:#0057ff} .sb-dark{background:#111} .sb-red{background:#e82c2c} .sb-white{background:#fff}
-    .skill-block-title { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 0.04em; margin-bottom: 22px; }
+    .sb-green{background:#00c87a} .sb-purple{background:#7c3aed} .sb-orange{background:#ff6a00} .sb-pink{background:#ff6bce}
+    .skill-block-title { font-family: 'Bebas Neue', sans-serif; font-size: 46px; letter-spacing: 0.04em; margin-bottom: 26px; }
     .tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 16px; border: 2px solid rgba(255,255,255,0.65); color: #fff; font-weight: 700; transition: background 0.2s; }
     .tag:hover { background: rgba(255,255,255,0.15); }
@@ -193,6 +194,7 @@
     .contact-card { padding: 48px 44px; border-right: 4px solid #111; display: flex; flex-direction: column; justify-content: space-between; min-height: 260px; }
     .contact-card:last-child { border-right: none; }
     .cc-blue{background:#0057ff} .cc-black{background:#111} .cc-yellow{background:#f0ec3a}
+    .cc-green{background:#00c87a} .cc-purple{background:#7c3aed} .cc-orange{background:#ff6a00}
     .cc-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
     .cc-label-dark { color: rgba(0,0,0,0.4) !important; }
     .cc-val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: #fff; line-height: 1.15; text-decoration: none; display: block; transition: opacity 0.2s; }
@@ -370,18 +372,18 @@
     <div class="skill-block sb-blue reveal">
       <div class="skill-block-title" style="color:#fff">Languages</div>
       <div class="tags"><span class="tag">Java</span><span class="tag">Python</span><span class="tag">C</span><span class="tag">JavaScript</span><span class="tag">Swift</span><span class="tag">SQL</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Bash</span></div>
-      <div class="skill-block-title" style="color:rgba(255,255,255,0.5); font-size:20px; margin-top:20px; margin-bottom:12px;">Human Languages</div>
+      <div class="skill-block-title" style="color:rgba(255,255,255,0.45); font-size:22px; margin-top:24px; margin-bottom:14px;">Human Languages</div>
       <div class="tags"><span class="tag">Spanish (Native)</span><span class="tag">English (Fluent)</span></div>
     </div>
-    <div class="skill-block sb-dark reveal d1">
-      <div class="skill-block-title" style="color:#f0ec3a">ML & Data</div>
-      <div class="tags"><span class="tag">PyTorch</span><span class="tag">scikit-learn</span><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">Streamlit</span><span class="tag">NLP</span><span class="tag">RoBERTa</span><span class="tag">Random Forest</span><span class="tag">Transformers</span></div>
+    <div class="skill-block sb-orange reveal d1">
+      <div class="skill-block-title" style="color:#fff">ML & Data</div>
+      <div class="tags"><span class="tag">PyTorch</span><span class="tag">scikit-learn</span><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">Streamlit</span><span class="tag">NLP</span><span class="tag">RoBERTa</span><span class="tag">HuggingFace</span><span class="tag">Random Forest</span><span class="tag">Transformers</span><span class="tag">Jupyter</span></div>
     </div>
-    <div class="skill-block sb-red reveal d2">
+    <div class="skill-block sb-purple reveal d2">
       <div class="skill-block-title" style="color:#fff">Cloud & DevOps</div>
-      <div class="tags"><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Serverless</span><span class="tag">AWS Compute</span><span class="tag">AWS Storage</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span><span class="tag">Linux</span></div>
+      <div class="tags"><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Serverless</span><span class="tag">AWS Compute</span><span class="tag">AWS Storage</span><span class="tag">Azure Blob Storage</span><span class="tag">Function Apps</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span><span class="tag">Linux</span><span class="tag">CI/CD</span></div>
     </div>
-    <div class="skill-block sb-white reveal d3">
+    <div class="skill-block sb-green reveal d3">
       <div class="skill-block-title" style="color:#111">Frameworks & Tools</div>
       <div class="tags"><span class="tag tag-dark">React</span><span class="tag tag-dark">SwiftUI</span><span class="tag tag-dark">Node.js</span><span class="tag tag-dark">REST APIs</span><span class="tag tag-dark">MySQL</span><span class="tag tag-dark">PostgreSQL</span><span class="tag tag-dark">VS Code</span><span class="tag tag-dark">IntelliJ</span><span class="tag tag-dark">Figma</span><span class="tag tag-dark">Jupyter</span><span class="tag tag-dark">Arduino</span><span class="tag tag-dark">Raspberry Pi</span></div>
     </div>
@@ -471,24 +473,24 @@
         <a href="tel:+34663022411" class="cc-val">+34 663 022 411</a>
       </div>
     </div>
-    <div class="contact-card cc-black reveal d1">
-      <div class="cc-label" style="color:#444; margin-bottom:16px">Find me on</div>
+    <div class="contact-card cc-purple reveal d1">
+      <div class="cc-label" style="color:rgba(255,255,255,0.45); margin-bottom:16px">Find me on</div>
       <div class="social-list">
         <a href="https://github.com/mjcolmenarez" target="_blank" class="social-link">GitHub <span>→</span></a>
         <a href="https://linkedin.com/in/maria-jose-colmenarez-ortiz" target="_blank" class="social-link">LinkedIn <span>→</span></a>
         <a href="mailto:mcolmenarez.ieu2023@student.ie.edu" class="social-link">Email <span>→</span></a>
       </div>
     </div>
-    <div class="contact-card cc-yellow reveal d2">
+    <div class="contact-card cc-orange reveal d2">
       <div>
-        <div class="cc-label cc-label-dark">Availability</div>
-        <div class="avail-big">OPEN<br>NOW.</div>
-        <div class="avail-sub">Internships · Part-time · Remote · Europe · 2026</div>
+        <div class="cc-label">Availability</div>
+        <div class="avail-big" style="color:#fff">OPEN<br>NOW.</div>
+        <div class="avail-sub" style="color:rgba(255,255,255,0.6)">Internships · Part-time · Remote · Europe · 2026</div>
       </div>
       <div>
-        <div class="cc-label cc-label-dark" style="margin-top:28px">Based in</div>
-        <div class="avail-big" style="font-size:34px">MADRID,<br>SPAIN 🇪🇸</div>
-        <div class="avail-sub">Originally from Venezuela 🇻🇪</div>
+        <div class="cc-label" style="margin-top:28px">Based in</div>
+        <div class="avail-big" style="font-size:34px; color:#fff">MADRID,<br>SPAIN 🇪🇸</div>
+        <div class="avail-sub" style="color:rgba(255,255,255,0.6)">Originally from Venezuela 🇻🇪</div>
       </div>
     </div>
   </div>
