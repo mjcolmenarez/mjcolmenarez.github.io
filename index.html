@@ -146,10 +146,16 @@
     .tag-dark:hover { background: rgba(0,0,0,0.08) !important; }
 
     /* BIG SCROLLING SKILL ROWS */
-    .skill-row { display: flex; align-items: stretch; border-bottom: 4px solid #222; overflow: hidden; position: relative; }
+    .skill-row { display: flex; flex-direction: column; border-bottom: 4px solid #222; overflow: hidden; position: relative; }
     .skill-row:last-child { border-bottom: none; }
-    .skill-row-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); padding: 24px 18px; border-right: 4px solid #222; color: #444; flex-shrink: 0; display: flex; align-items: center; background: #111; }
-    .skill-scroll-wrap { overflow: hidden; flex: 1; display: flex; align-items: center; }
+    .skill-row-label { font-family: 'Bebas Neue', sans-serif; font-size: clamp(18px, 2vw, 26px); letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 28px; border-bottom: 3px solid #222; color: #555; flex-shrink: 0; display: flex; align-items: center; gap: 16px; background: #111; }
+    .skill-row-label::after { content: ''; flex: 1; height: 1px; background: #222; }
+    .row-blue .skill-row-label { color: #0057ff; }
+    .row-orange .skill-row-label { color: #ff6a00; }
+    .row-purple .skill-row-label { color: #7c3aed; }
+    .row-green .skill-row-label { color: #00c87a; }
+    .row-pink .skill-row-label { color: #ff6bce; }
+    .skill-scroll-wrap { overflow: hidden; display: flex; align-items: center; }
     .skill-scroll { display: flex; align-items: center; animation: skillscroll 18s linear infinite; white-space: nowrap; }
     .skill-scroll-rev { animation-direction: reverse; animation-duration: 22s; }
     .skill-scroll-slow { animation-duration: 28s; }
