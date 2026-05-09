@@ -8,989 +8,540 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
-    /* ===== RESET & BASE ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      background: #111;
-      color: #111;
-      overflow-x: hidden;
-      cursor: none;
-    }
+    body { font-family: 'Space Grotesk', sans-serif; background: #111; color: #111; overflow-x: hidden; cursor: none; }
 
-    /* ===== CUSTOM CURSOR ===== */
-    .cursor {
-      width: 12px; height: 12px;
-      background: #f0ec3a;
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.15s ease, background 0.2s;
-      mix-blend-mode: difference;
-    }
-    .cursor-ring {
-      width: 36px; height: 36px;
-      border: 2px solid #f0ec3a;
-      border-radius: 50%;
-      position: fixed; top: 0; left: 0;
-      pointer-events: none;
-      z-index: 9998;
-      transition: transform 0.35s ease, width 0.2s, height 0.2s;
-      mix-blend-mode: difference;
-    }
+    /* CURSOR */
+    .cursor { width: 14px; height: 14px; background: #f0ec3a; border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-ring { width: 40px; height: 40px; border: 2px solid #f0ec3a; border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; mix-blend-mode: difference; transition: width 0.2s, height 0.2s; }
 
-    /* ===== SCROLL ANIMATIONS ===== */
-    .reveal {
-      opacity: 0;
-      transform: translateY(60px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(80px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-80px);
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .reveal-left { opacity: 0; transform: translateX(-100px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
     .reveal-left.visible { opacity: 1; transform: translateX(0); }
-    .reveal-right {
-      opacity: 0;
-      transform: translateX(80px);
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .reveal-right { opacity: 0; transform: translateX(100px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
     .reveal-right.visible { opacity: 1; transform: translateX(0); }
-    .reveal-scale {
-      opacity: 0;
-      transform: scale(0.8);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal-scale.visible { opacity: 1; transform: scale(1); }
-    .delay-1 { transition-delay: 0.1s !important; }
-    .delay-2 { transition-delay: 0.2s !important; }
-    .delay-3 { transition-delay: 0.3s !important; }
-    .delay-4 { transition-delay: 0.4s !important; }
-    .delay-5 { transition-delay: 0.5s !important; }
+    .d1{transition-delay:0.1s!important} .d2{transition-delay:0.2s!important}
+    .d3{transition-delay:0.3s!important} .d4{transition-delay:0.4s!important}
+    .d5{transition-delay:0.5s!important} .d6{transition-delay:0.6s!important}
 
-    /* ===== NAV ===== */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: stretch;
-      background: #111;
-      border-bottom: 3px solid #222;
-      z-index: 1000;
-      height: 54px;
-    }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 30px;
-      color: #f0ec3a;
-      padding: 0 22px;
-      border-right: 3px solid #222;
-      display: flex; align-items: center;
-      letter-spacing: 0.04em;
-    }
-    .nav-marquee-wrap {
-      overflow: hidden;
-      display: flex; align-items: center;
-      border-right: 3px solid #222;
-    }
-    .nav-marquee {
-      display: inline-block;
-      white-space: nowrap;
-      animation: marquee 22s linear infinite;
-    }
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .nav-m-item {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px; letter-spacing: 0.14em;
-      text-transform: uppercase; color: #444;
-      padding-right: 36px;
-    }
-    .nav-m-dot { color: #e82c2c; padding-right: 36px; font-size: 14px; }
-    .nav-links { display: flex; }
-    .nav-links a {
-      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 0 18px; color: #666; text-decoration: none;
-      border-left: 3px solid #222;
-      display: flex; align-items: center;
-      transition: color 0.2s, background 0.2s;
-    }
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: grid; grid-template-columns: auto 1fr auto; align-items: stretch; background: #111; border-bottom: 3px solid #222; height: 56px; }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: #f0ec3a; padding: 0 24px; border-right: 3px solid #222; display: flex; align-items: center; }
+    .nav-ticker { overflow: hidden; display: flex; align-items: center; }
+    .nav-ticker-inner { display: inline-block; white-space: nowrap; animation: ticker 24s linear infinite; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .tick { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #444; padding-right: 40px; }
+    .tick-dot { color: #e82c2c; padding-right: 40px; }
+    .nav-links { display: flex; border-left: 3px solid #222; }
+    .nav-links a { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 20px; color: #666; text-decoration: none; border-left: 3px solid #222; display: flex; align-items: center; transition: color 0.2s; }
+    .nav-links a:first-child { border-left: none; }
     .nav-links a:hover { color: #f0ec3a; }
-    .nav-links a.cta { background: #f0ec3a; color: #111; font-weight: 700; border-left: 3px solid #111; }
-    .nav-links a.cta:hover { background: #e82c2c; color: #fff; }
+    .nav-cta { background: #f0ec3a !important; color: #111 !important; font-weight: 700; }
+    .nav-cta:hover { background: #e82c2c !important; color: #fff !important; }
+    .spacer { height: 56px; }
 
-    /* ===== SPACER ===== */
-    .spacer { height: 54px; }
-
-    /* ===== HERO ===== */
-    .hero {
-      display: grid;
-      grid-template-columns: 3fr 1fr 1fr;
-      grid-template-rows: auto auto;
-      border-bottom: 3px solid #111;
-    }
-    .h-main {
-      background: #f0ec3a;
-      padding: 48px 36px 40px;
-      border-right: 3px solid #111;
-      grid-row: 1 / 3;
-      display: flex; flex-direction: column; justify-content: space-between;
-      min-height: 500px;
-    }
-    .h-tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
-      color: rgba(0,0,0,0.4); margin-bottom: 16px;
-    }
-    .h-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(72px, 9vw, 110px);
-      line-height: 0.87; letter-spacing: 0.01em;
-    }
-    .h-title .out {
-      -webkit-text-stroke: 3px #111;
-      color: transparent;
-    }
-    .h-title .red { color: #e82c2c; }
-    .h-title .blue { color: #0057ff; }
-    .h-title .purple { color: #7c3aed; }
-    .h-desc {
-      font-size: 13px; line-height: 1.7; color: rgba(0,0,0,0.6);
-      font-weight: 300; max-width: 340px; margin-top: 20px;
-    }
-    .h-btns { display: flex; gap: 0; margin-top: 28px; }
-    .hbtn {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px; letter-spacing: 0.08em;
-      padding: 12px 26px; border: 3px solid #111;
-      cursor: none; text-decoration: none; display: inline-block;
-      transition: background 0.2s, color 0.2s;
-    }
+    /* HERO */
+    .hero { background: #f0ec3a; min-height: 100vh; display: grid; grid-template-rows: 1fr auto; position: relative; overflow: hidden; border-bottom: 4px solid #111; }
+    .hero-content { padding: 60px 48px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(0,0,0,0.45); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content:''; width:32px; height:2px; background:#111; }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px,14vw,180px); line-height: 0.85; }
+    .hero-title .out { -webkit-text-stroke: 4px #111; color: transparent; }
+    .hero-title .red { color: #e82c2c; }
+    .hero-title .blue { color: #0057ff; }
+    .hero-sub-row { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 40px; gap: 40px; flex-wrap: wrap; }
+    .hero-desc { font-size: 15px; line-height: 1.75; color: rgba(0,0,0,0.65); font-weight: 300; max-width: 420px; }
+    .hero-desc strong { font-weight: 700; color: #111; }
+    .hero-btns { display: flex; flex-shrink: 0; }
+    .hbtn { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.08em; padding: 14px 30px; border: 3px solid #111; cursor: none; text-decoration: none; display: inline-block; transition: all 0.2s; }
     .hbtn-fill { background: #111; color: #f0ec3a; }
     .hbtn-fill:hover { background: #e82c2c; border-color: #e82c2c; }
     .hbtn-out { background: transparent; color: #111; border-left: none; }
     .hbtn-out:hover { background: #111; color: #f0ec3a; }
+    .hero-bg-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(200px,30vw,380px); color: rgba(0,0,0,0.04); position: absolute; bottom: -40px; right: -20px; line-height: 1; user-select: none; z-index: 1; white-space: nowrap; }
+    .hero-strip { display: grid; grid-template-columns: repeat(4,1fr); border-top: 4px solid #111; position: relative; z-index: 2; }
+    .hs { padding: 20px 28px; border-right: 4px solid #111; }
+    .hs:last-child { border-right: none; }
+    .hs-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.35); margin-bottom: 5px; }
+    .hs-val { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.03em; color: #111; }
 
-    .h-cell {
-      padding: 22px 20px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      overflow: hidden; position: relative;
-    }
-    .h-red { background: #e82c2c; border-bottom: 3px solid #111; }
-    .h-blue { background: #0057ff; border-bottom: 3px solid #111; border-left: 3px solid #111; }
-    .h-green { background: #00c87a; border-left: 3px solid #111; }
-    .h-orange { background: #ff6a00; }
-    .cell-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-    }
-    .cell-val {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px; line-height: 0.9; letter-spacing: 0.03em; color: #fff;
-    }
-    .cell-val.dark { color: #111; }
-    .cell-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.1em; color: rgba(255,255,255,0.45);
-      margin-top: 4px;
-    }
-    .cell-bg {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 100px; position: absolute; bottom: -18px; right: -6px;
-      color: rgba(0,0,0,0.08); user-select: none; line-height: 1;
-    }
+    /* COLOR CELLS ROW */
+    .cells-row { display: grid; grid-template-columns: repeat(5,1fr); border-bottom: 4px solid #111; }
+    .cell { padding: 36px 28px; border-right: 4px solid #111; position: relative; overflow: hidden; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; }
+    .cell:last-child { border-right: none; }
+    .c-red{background:#e82c2c} .c-blue{background:#0057ff} .c-green{background:#00c87a} .c-orange{background:#ff6a00} .c-pink{background:#ff6bce}
+    .cell-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .cell-label-dark { color: rgba(0,0,0,0.45) !important; }
+    .cell-big { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 0.9; color: #fff; }
+    .cell-big-dark { color: #111 !important; }
+    .cell-small { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 5px; }
+    .cell-small-dark { color: rgba(0,0,0,0.4) !important; }
+    .cell-ghost { font-family: 'Bebas Neue', sans-serif; font-size: 120px; position: absolute; bottom: -22px; right: -10px; color: rgba(255,255,255,0.06); user-select: none; line-height: 1; }
+    .cell-ghost-dark { color: rgba(0,0,0,0.06) !important; }
 
-    /* ===== SECTION HEADERS ===== */
-    .section-bar {
-      background: #111; padding: 12px 28px;
-      border-bottom: 3px solid #111;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .section-bar-text {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 14px; letter-spacing: 0.16em; color: #444;
-    }
-    .section-bar-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px; color: #333; letter-spacing: 0.1em;
-    }
+    /* ABOUT */
+    .about-section { background: #111; position: relative; overflow: hidden; border-bottom: 4px solid #111; }
+    .about-giant { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px,10vw,140px); line-height: 0.88; color: #f0ec3a; padding: 70px 48px 50px; position: relative; z-index: 2; }
+    .about-giant .out { -webkit-text-stroke: 3px #f0ec3a; color: transparent; }
+    .about-giant .red { color: #e82c2c; }
+    .about-giant .white { color: #fff; }
+    .about-bg-ghost { font-family: 'Bebas Neue', sans-serif; font-size: clamp(200px,28vw,360px); color: rgba(255,255,255,0.02); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); white-space: nowrap; user-select: none; line-height: 1; }
+    .about-detail-row { display: grid; grid-template-columns: 1fr 1fr; border-top: 4px solid #222; }
+    .about-text-block { padding: 48px; border-right: 4px solid #222; }
+    .about-text-block p { font-size: 16px; line-height: 1.85; color: #aaa; font-weight: 300; margin-bottom: 20px; }
+    .about-text-block p strong { color: #fff; font-weight: 700; }
+    .about-text-block p em { color: #f0ec3a; font-style: normal; }
+    .about-flags { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+    .flag-tag { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 14px; border: 2px solid #333; color: #666; }
+    .flag-tag.active { border-color: #f0ec3a; color: #f0ec3a; }
+    .about-quote-block { padding: 48px; display: flex; flex-direction: column; justify-content: space-between; }
+    .about-big-quote { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,4vw,60px); line-height: 1; color: #fff; margin-bottom: 20px; }
+    .about-big-quote span { color: #e82c2c; }
+    .about-quote-sub { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #444; }
+    .about-stats-mini { display: flex; margin-top: 36px; border-top: 2px solid #222; }
+    .mini-stat { flex: 1; padding: 20px 0; border-right: 2px solid #222; padding-right: 20px; }
+    .mini-stat:last-child { border-right: none; padding-left: 20px; padding-right: 0; }
+    .mini-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: #f0ec3a; line-height: 1; }
+    .mini-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-top: 3px; }
 
-    /* ===== PROJECTS ===== */
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-bottom: 3px solid #111;
-    }
-    .proj {
-      padding: 26px 22px; border-right: 3px solid #111;
-      position: relative; overflow: hidden;
-      min-height: 240px; display: flex; flex-direction: column; justify-content: space-between;
-      transition: filter 0.3s;
-      cursor: none;
-    }
-    .proj:last-child { border-right: none; }
-    .proj:hover { filter: brightness(0.88); }
-    .p1 { background: #fff; }
-    .p2 { background: #ff6bce; }
-    .p3 { background: #7c3aed; }
-    .p4 { background: #111; }
-    .p5 { background: #00c87a; }
-    .p6 { background: #ff6a00; }
+    /* PROJECTS */
+    .projects-section { background: #f0ec3a; border-bottom: 4px solid #111; }
+    .proj-header { padding: 48px 48px 36px; display: flex; justify-content: space-between; align-items: baseline; }
+    .proj-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,7vw,96px); line-height: 1; color: #111; }
+    .proj-header-sub { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.4); }
+    .proj-mosaic { display: grid; grid-template-columns: 1.4fr 1fr 1fr; border-top: 4px solid #111; }
+    .proj-card { padding: 36px 32px; border-right: 4px solid #111; border-bottom: 4px solid #111; position: relative; overflow: hidden; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; cursor: none; transition: filter 0.25s; }
+    .proj-card:hover { filter: brightness(0.85); }
+    .pc-white{background:#fff} .pc-pink{background:#ff6bce} .pc-purple{background:#7c3aed} .pc-black{background:#111} .pc-green{background:#00c87a} .pc-orange{background:#ff6a00}
+    .proj-card.no-right { border-right: none; }
+    .proj-card.no-bottom { border-bottom: none; }
+    .proj-idx { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.14em; opacity: 0.5; margin-bottom: 16px; }
+    .proj-icon { font-size: 32px; margin-bottom: 16px; }
+    .proj-name { font-family: 'Bebas Neue', sans-serif; font-size: 36px; line-height: 0.92; margin-bottom: 10px; }
+    .proj-tech { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.8; opacity: 0.75; }
+    .proj-arrow { font-family: 'Bebas Neue', sans-serif; font-size: 32px; opacity: 0.2; align-self: flex-end; transition: opacity 0.2s, transform 0.2s; }
+    .proj-card:hover .proj-arrow { opacity: 0.7; transform: translate(6px,-6px); }
+    .proj-ghost { font-family: 'Bebas Neue', sans-serif; font-size: 140px; position: absolute; bottom: -26px; right: -12px; opacity: 0.04; user-select: none; line-height: 1; }
 
-    .proj-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.12em; opacity: 0.35; margin-bottom: 12px;
-    }
-    .proj-icon { font-size: 26px; margin-bottom: 12px; }
-    .proj-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px; line-height: 0.95; letter-spacing: 0.03em; margin-bottom: 8px;
-    }
-    .proj-tech {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px; letter-spacing: 0.08em; opacity: 0.75; line-height: 1.7; text-transform: uppercase;
-    }
-    .proj-arrow {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px; opacity: 0.2; align-self: flex-end;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .proj:hover .proj-arrow { opacity: 0.6; transform: translate(4px, -4px); }
-    .proj-bg {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 110px; position: absolute; bottom: -20px; right: -8px;
-      opacity: 0.05; user-select: none; color: inherit; line-height: 1;
-    }
+    /* SKILLS */
+    .skills-section { background: #111; border-bottom: 4px solid #111; }
+    .skills-header { padding: 60px 48px 40px; }
+    .skills-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,7vw,96px); line-height: 0.9; color: #fff; }
+    .skills-header-title .yellow { color: #f0ec3a; }
+    .skills-grid { display: grid; grid-template-columns: repeat(2,1fr); border-top: 4px solid #222; }
+    .skill-block { padding: 44px 48px; border-right: 4px solid #222; border-bottom: 4px solid #222; }
+    .skill-block:nth-child(2n) { border-right: none; }
+    .skill-block:nth-last-child(-n+2) { border-bottom: none; }
+    .sb-blue{background:#0057ff} .sb-dark{background:#111} .sb-red{background:#e82c2c} .sb-yellow{background:#f0ec3a}
+    .skill-block-title { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 0.04em; margin-bottom: 22px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 14px; border: 2px solid rgba(255,255,255,0.65); color: #fff; font-weight: 700; transition: background 0.2s; }
+    .tag:hover { background: rgba(255,255,255,0.15); }
+    .tag-dark { border-color: rgba(0,0,0,0.45) !important; color: #111 !important; }
+    .tag-dark:hover { background: rgba(0,0,0,0.08) !important; }
 
-    /* ===== ABOUT STATEMENT ===== */
-    .about-statement {
-      background: #f0ec3a;
-      padding: 60px 36px;
-      display: flex; align-items: center; justify-content: center;
-      border-bottom: 3px solid #111;
-      overflow: hidden; position: relative;
-    }
-    .about-big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(48px, 7vw, 96px);
-      line-height: 0.9; letter-spacing: 0.01em;
-      text-align: center; position: relative; z-index: 2;
-    }
-    .about-big .out { -webkit-text-stroke: 2.5px #111; color: transparent; }
-    .about-big .red { color: #e82c2c; }
-    .about-big .blue { color: #0057ff; }
-    .about-bg-text {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 220px; color: rgba(0,0,0,0.04);
-      position: absolute; white-space: nowrap; user-select: none;
-      line-height: 1; top: 50%; left: 50%; transform: translate(-50%,-50%);
-    }
+    /* AIMS */
+    .aims-section { border-bottom: 4px solid #111; }
+    .aims-header { background: #f0ec3a; padding: 60px 48px 0; }
+    .aims-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,7vw,96px); line-height: 0.9; color: #111; }
+    .aims-header-title .out { -webkit-text-stroke: 3px #111; color: transparent; }
+    .aims-grid { display: grid; grid-template-columns: repeat(3,1fr); border-top: 4px solid #111; }
+    .aim { padding: 52px 44px; border-right: 4px solid #111; position: relative; overflow: hidden; min-height: 420px; display: flex; flex-direction: column; justify-content: space-between; }
+    .aim:last-child { border-right: none; }
+    .a-black{background:#111} .a-red{background:#e82c2c} .a-yellow{background:#f0ec3a}
+    .aim-num-bg { font-family: 'Bebas Neue', sans-serif; font-size: 180px; position: absolute; top: -20px; right: -10px; line-height: 1; user-select: none; opacity: 0.05; }
+    .aim-icon { font-size: 44px; margin-bottom: 20px; }
+    .aim-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 0.92; margin-bottom: 18px; }
+    .aim-body { font-size: 14px; line-height: 1.85; }
 
-    /* ===== SKILLS ===== */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-bottom: 3px solid #111;
-    }
-    .skill-col {
-      padding: 28px 22px;
-      border-right: 3px solid #111;
-    }
-    .skill-col:last-child { border-right: none; }
-    .sc1 { background: #0057ff; }
-    .sc2 { background: #111; }
-    .sc3 { background: #e82c2c; }
-    .sc4 { background: #f0ec3a; }
-    .skill-col-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px; letter-spacing: 0.05em; margin-bottom: 18px;
-    }
-    .skill-tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
-    .skill-tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 7px 13px; border: 2px solid rgba(255,255,255,0.7);
-      color: #fff; font-weight: 700;
-      transition: background 0.2s, color 0.2s;
-    }
-    .skill-tag:hover { background: rgba(255,255,255,0.2); }
-    .skill-tag-dark {
-      border-color: rgba(0,0,0,0.5); color: #111; font-weight: 700;
-    }
-    .skill-tag-dark:hover { background: rgba(0,0,0,0.1); }
+    /* BACKGROUND */
+    .bg-section { background: #fff; border-bottom: 4px solid #111; }
+    .bg-header { padding: 60px 48px 48px; border-bottom: 4px solid #111; }
+    .bg-header-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,7vw,96px); line-height: 0.9; }
+    .bg-header-title .red { color: #e82c2c; }
+    .bg-grid { display: grid; grid-template-columns: 1.5fr 1fr; }
+    .bg-left { padding: 48px; border-right: 4px solid #111; }
+    .bg-item { margin-bottom: 44px; padding-bottom: 44px; border-bottom: 2px solid #eee; }
+    .bg-item:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+    .bg-role { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: #111; line-height: 1; margin-bottom: 6px; }
+    .bg-where { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin-bottom: 10px; }
+    .bg-desc { font-size: 14px; line-height: 1.75; color: #555; }
+    .bg-right { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+    .bg-stat { padding: 40px 32px; border-left: 4px solid #111; border-bottom: 4px solid #111; display: flex; flex-direction: column; justify-content: space-between; min-height: 200px; }
+    .bg-stat:nth-child(2n) { border-left: none; }
+    .bg-stat:nth-last-child(-n+2) { border-bottom: none; }
+    .bs-purple{background:#7c3aed} .bs-pink{background:#ff6bce} .bs-green{background:#00c87a} .bs-orange{background:#ff6a00}
+    .stat-lbl { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .stat-lbl-dark { color: rgba(0,0,0,0.45) !important; }
+    .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: #fff; line-height: 1; }
+    .stat-n-dark { color: #111 !important; }
+    .stat-sub { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+    .stat-sub-dark { color: rgba(0,0,0,0.4) !important; }
 
-    /* ===== EXPERIENCE / BG ===== */
-    .background-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      border-bottom: 3px solid #111;
-    }
-    .bg-main { background: #fff; padding: 32px 28px; border-right: 3px solid #111; }
-    .bg-stat1 { background: #7c3aed; padding: 28px 22px; border-bottom: 3px solid #111; display: flex; flex-direction: column; justify-content: space-between; }
-    .bg-stat2 { background: #ff6bce; padding: 28px 22px; border-bottom: 3px solid #111; border-left: 3px solid #111; display: flex; flex-direction: column; justify-content: space-between; }
-    .bg-stat3 { background: #00c87a; padding: 28px 22px; display: flex; flex-direction: column; justify-content: space-between; }
-    .bg-stat4 { background: #ff6a00; padding: 28px 22px; border-left: 3px solid #111; display: flex; flex-direction: column; justify-content: space-between; }
-
-    .bg-section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.4; margin-bottom: 14px;
-    }
-    .bg-item { margin-bottom: 22px; }
-    .bg-item:last-child { margin-bottom: 0; }
-    .bg-role {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px; letter-spacing: 0.04em; line-height: 1; margin-bottom: 4px;
-    }
-    .bg-where {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #666; margin-bottom: 5px;
-    }
-    .bg-desc { font-size: 12px; line-height: 1.65; color: #333; font-weight: 400; }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 56px; color: #fff; line-height: 1;
-    }
-    .stat-num.dark { color: #111; }
-    .stat-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-    }
-    .stat-label.dark { color: rgba(0,0,0,0.4); }
-
-    /* ===== AIMS / LOOKING FOR ===== */
-    .aims {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      border-bottom: 3px solid #111;
-    }
-    .aim-cell {
-      padding: 32px 26px; border-right: 3px solid #111;
-      position: relative; overflow: hidden;
-    }
-    .aim-cell:last-child { border-right: none; }
-    .ac1 { background: #111; }
-    .ac2 { background: #e82c2c; }
-    .ac3 { background: #f0ec3a; }
-    .aim-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 80px; color: rgba(255,255,255,0.05);
-      position: absolute; top: -10px; right: 10px; line-height: 1; user-select: none;
-    }
-    .aim-num-dark { color: rgba(0,0,0,0.05) !important; }
-    .aim-icon { font-size: 28px; margin-bottom: 14px; }
-    .aim-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 34px; line-height: 1; letter-spacing: 0.03em; margin-bottom: 12px;
-    }
-    .aim-body { font-size: 13px; line-height: 1.75; font-weight: 400; }
-
-    /* ===== CONTACT ===== */
-    .contact {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      border-bottom: 3px solid #111;
-    }
-    .contact-left { background: #0057ff; padding: 40px 36px; border-right: 3px solid #111; }
-    .contact-right { background: #111; padding: 40px 28px; display: flex; flex-direction: column; justify-content: space-between; }
-    .contact-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
-      color: rgba(255,255,255,0.4); margin-bottom: 16px;
-    }
-    .contact-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(42px, 5vw, 72px);
-      line-height: 0.9; letter-spacing: 0.02em; color: #fff; margin-bottom: 24px;
-    }
-    .contact-item {
-      display: flex; align-items: flex-start; gap: 14px;
-      margin-bottom: 18px; padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .contact-item:last-child { border-bottom: none; margin-bottom: 0; }
-    .contact-icon { font-size: 16px; margin-top: 1px; flex-shrink: 0; }
-    .contact-type {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.4); margin-bottom: 3px;
-    }
-    .contact-val {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px; color: #fff; font-weight: 400;
-      text-decoration: none; display: block;
-      transition: opacity 0.2s;
-    }
-    .contact-val:hover { opacity: 0.7; }
-    .contact-right-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: #444;
-      margin-bottom: 12px;
-    }
-    .availability-block { margin-bottom: 28px; }
-    .avail-status {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px; color: #f0ec3a; line-height: 1; margin-bottom: 4px;
-    }
-    .avail-desc {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: #444;
-    }
-    .contact-socials { display: flex; flex-direction: column; gap: 8px; }
-    .social-link {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px; letter-spacing: 0.06em; color: #f0ec3a;
-      text-decoration: none; padding: 10px 0;
-      border-bottom: 1px solid #222;
-      display: flex; justify-content: space-between; align-items: center;
-      transition: color 0.2s, padding-left 0.2s;
-    }
-    .social-link:hover { color: #fff; padding-left: 8px; }
+    /* CONTACT */
+    .contact-section { border-bottom: 4px solid #111; }
+    .contact-top { background: #0057ff; padding: 80px 48px 60px; position: relative; overflow: hidden; }
+    .contact-ghost { font-family: 'Bebas Neue', sans-serif; font-size: clamp(150px,22vw,300px); color: rgba(255,255,255,0.04); position: absolute; bottom: -30px; right: -20px; line-height: 1; user-select: none; white-space: nowrap; }
+    .contact-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px,10vw,130px); line-height: 0.88; color: #fff; position: relative; z-index: 2; margin-bottom: 16px; }
+    .contact-subtitle { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); position: relative; z-index: 2; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 4px solid #111; }
+    .contact-card { padding: 48px 44px; border-right: 4px solid #111; display: flex; flex-direction: column; justify-content: space-between; min-height: 260px; }
+    .contact-card:last-child { border-right: none; }
+    .cc-blue{background:#0057ff} .cc-black{background:#111} .cc-yellow{background:#f0ec3a}
+    .cc-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+    .cc-label-dark { color: rgba(0,0,0,0.4) !important; }
+    .cc-val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: #fff; line-height: 1.15; text-decoration: none; display: block; transition: opacity 0.2s; }
+    .cc-val:hover { opacity: 0.7; }
+    .cc-val-dark { color: #111 !important; }
+    .social-list { display: flex; flex-direction: column; }
+    .social-link { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: #f0ec3a; text-decoration: none; padding: 16px 0; border-bottom: 2px solid #222; display: flex; justify-content: space-between; align-items: center; transition: padding-left 0.2s, color 0.2s; }
     .social-link:last-child { border-bottom: none; }
+    .social-link:hover { color: #fff; padding-left: 10px; }
+    .avail-big { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: #111; line-height: 1; }
+    .avail-sub { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.5); margin-top: 6px; }
 
-    /* ===== FOOTER ===== */
-    .footer {
-      background: #f0ec3a;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      border-top: 3px solid #111;
-    }
-    .foot-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 48px; letter-spacing: 0.04em; color: #111;
-      padding: 16px 26px; border-right: 3px solid #111; line-height: 1;
-    }
-    .foot-mid { padding: 0 28px; }
-    .foot-mid span {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px; letter-spacing: 0.12em; color: rgba(0,0,0,0.4); text-transform: uppercase;
-    }
-    .foot-links { display: flex; border-left: 3px solid #111; }
-    .foot-links a {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px; letter-spacing: 0.08em;
-      padding: 20px 22px; color: #111; text-decoration: none;
-      border-right: 3px solid #111;
-      display: flex; align-items: center;
-      transition: background 0.2s, color 0.2s;
-    }
+    /* FOOTER */
+    .footer { background: #f0ec3a; display: grid; grid-template-columns: auto 1fr auto; align-items: center; border-top: 4px solid #111; }
+    .foot-logo { font-family: 'Bebas Neue', sans-serif; font-size: 54px; color: #111; padding: 18px 28px; border-right: 4px solid #111; line-height: 1; }
+    .foot-mid { padding: 0 32px; }
+    .foot-copy { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.4); }
+    .foot-links { display: flex; border-left: 4px solid #111; }
+    .foot-links a { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.06em; padding: 22px 24px; color: #111; text-decoration: none; border-right: 4px solid #111; display: flex; align-items: center; transition: background 0.2s, color 0.2s; }
     .foot-links a:hover { background: #111; color: #f0ec3a; }
-    .foot-links a:last-child { border-right: none; background: #e82c2c; color: #fff; }
+    .foot-links a:last-child { background: #e82c2c; color: #fff; border-right: none; }
     .foot-links a:last-child:hover { background: #111; }
 
-    /* ===== GRAIN OVERLAY ===== */
-    body::after {
-      content: '';
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9990; opacity: 0.4;
-    }
+    body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9990; opacity:0.35; }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .hero { grid-template-columns: 1fr 1fr; }
-      .h-main { grid-column: 1 / 3; grid-row: 1; }
-      .h-red, .h-blue { grid-row: 2; }
-      .h-green, .h-orange { display: none; }
-      .projects { grid-template-columns: 1fr 1fr; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-      .background-grid { grid-template-columns: 1fr; }
-      .aims { grid-template-columns: 1fr; }
-      .contact { grid-template-columns: 1fr; }
-      .footer { grid-template-columns: 1fr; }
-      .foot-links { border-left: none; border-top: 3px solid #111; }
+    @media(max-width:768px){
+      .cells-row,.hero-strip{grid-template-columns:1fr 1fr}
+      .about-detail-row,.bg-grid,.contact-grid,.aims-grid,.proj-mosaic,.skills-grid,.footer{grid-template-columns:1fr}
+      .proj-mosaic .proj-card{border-right:none}
+      .foot-links{border-left:none;border-top:4px solid #111}
     }
   </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- CUSTOM CURSOR -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- ===== NAV ===== -->
-  <nav class="nav">
-    <div class="nav-logo">MJ.</div>
-    <div class="nav-marquee-wrap">
-      <div class="nav-marquee">
-        <span class="nav-m-item">CS & AI Student</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">IE University Madrid</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Machine Learning</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Cloud Computing</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Open to Internships · 2026</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Java · Python · C</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Software Development</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">CS & AI Student</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">IE University Madrid</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Machine Learning</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Cloud Computing</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Open to Internships · 2026</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Java · Python · C</span><span class="nav-m-dot">✦</span>
-        <span class="nav-m-item">Software Development</span><span class="nav-m-dot">✦</span>
-      </div>
+<nav class="nav">
+  <div class="nav-logo">MJ.</div>
+  <div class="nav-ticker">
+    <div class="nav-ticker-inner">
+      <span class="tick">Maria Jose Colmenarez</span><span class="tick-dot">✦</span>
+      <span class="tick">CS & AI · IE University</span><span class="tick-dot">✦</span>
+      <span class="tick">Venezuelan in Madrid</span><span class="tick-dot">✦</span>
+      <span class="tick">Machine Learning</span><span class="tick-dot">✦</span>
+      <span class="tick">Cloud Computing</span><span class="tick-dot">✦</span>
+      <span class="tick">Open to Internships · 2026</span><span class="tick-dot">✦</span>
+      <span class="tick">Java · Python · C</span><span class="tick-dot">✦</span>
+      <span class="tick">Maria Jose Colmenarez</span><span class="tick-dot">✦</span>
+      <span class="tick">CS & AI · IE University</span><span class="tick-dot">✦</span>
+      <span class="tick">Venezuelan in Madrid</span><span class="tick-dot">✦</span>
+      <span class="tick">Machine Learning</span><span class="tick-dot">✦</span>
+      <span class="tick">Cloud Computing</span><span class="tick-dot">✦</span>
+      <span class="tick">Open to Internships · 2026</span><span class="tick-dot">✦</span>
+      <span class="tick">Java · Python · C</span><span class="tick-dot">✦</span>
     </div>
-    <div class="nav-links">
-      <a href="#projects">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="#contact" class="cta">Say Hello →</a>
+  </div>
+  <div class="nav-links">
+    <a href="#projects">Work</a><a href="#about">About</a><a href="#contact">Contact</a>
+    <a href="#contact" class="nav-cta">Say Hello →</a>
+  </div>
+</nav>
+<div class="spacer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow reveal">CS & AI · IE University · Madrid · 2026</div>
+    <div class="hero-title reveal d1">
+      I BUILD<br><span class="out">THINGS</span><br>THAT <span class="red">THINK</span><br><span class="blue">&amp; <span class="out">FEEL</span></span>
     </div>
-  </nav>
-
-  <div class="spacer"></div>
-
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="h-main">
-      <div>
-        <div class="h-tag reveal">CS & AI · IE University · Madrid · 2026</div>
-        <div class="h-title reveal delay-1">
-          I BUILD<br>
-          <span class="out">THINGS</span><br>
-          THAT <span class="red">THINK</span><br>
-          <span class="blue">&amp; <span class="out">FEEL</span></span>
-        </div>
-        <div class="h-desc reveal delay-2">
-          CS & AI student at IE University. I build machine learning models, cloud systems, and full-stack software —
-          and I care as much about how things <em>look</em> as how they <em>work</em>.
-          Currently seeking internships in ML, software development, and cloud engineering.
-        </div>
+    <div class="hero-sub-row">
+      <div class="hero-desc reveal d2">
+        CS & AI student at IE University, Madrid.<br>
+        <strong>Venezuelan, 20</strong> — building machine learning models, cloud systems, and full-stack software with a habit of making them look like <strong>art</strong>.
       </div>
-      <div class="h-btns reveal delay-3">
+      <div class="hero-btns reveal d3">
         <a href="#projects" class="hbtn hbtn-fill">View My Work</a>
-        <a href="#" class="hbtn hbtn-out" download>Download CV</a>
+        <a href="cv.pdf" class="hbtn hbtn-out" download>Download CV</a>
       </div>
     </div>
-
-    <div class="h-cell h-red reveal delay-1">
-      <div class="cell-label">Status</div>
-      <div>
-        <div class="cell-val">OPEN<br>TO<br>WORK</div>
-        <div class="cell-sub">Internships · 2026</div>
-      </div>
-      <div class="cell-bg">!</div>
-    </div>
-    <div class="h-cell h-blue reveal delay-2">
-      <div class="cell-label">University</div>
-      <div>
-        <div class="cell-val">IE<br>UNIV.</div>
-        <div class="cell-sub">Madrid, Spain</div>
-      </div>
-      <div class="cell-bg">IE</div>
-    </div>
-    <div class="h-cell h-green reveal delay-3">
-      <div class="cell-label">Year</div>
-      <div>
-        <div class="cell-val dark">3RD<br>YEAR</div>
-        <div class="cell-sub" style="color:rgba(0,0,0,0.4)">CS / AI</div>
-      </div>
-      <div class="cell-bg" style="color:#111">3</div>
-    </div>
-    <div class="h-cell h-orange reveal delay-4">
-      <div class="cell-label">Focus</div>
-      <div>
-        <div class="cell-val">ML<br>CLOUD<br>DEV</div>
-      </div>
-      <div class="cell-bg">→</div>
-    </div>
-  </section>
-
-  <!-- ===== PROJECTS ===== -->
-  <div class="section-bar" id="projects">
-    <div class="section-bar-text reveal">Selected Projects</div>
-    <div class="section-bar-num reveal delay-1">06 Works</div>
   </div>
-
-  <section class="projects">
-    <div class="proj p1 reveal">
-      <div>
-        <div class="proj-num" style="color:#111">01 / NLP · ML</div>
-        <div class="proj-icon">🧠</div>
-        <div class="proj-name" style="color:#111">Propaganda<br>Technique<br>Detector</div>
-        <div class="proj-tech" style="color:#111">RoBERTa · PyTorch · NLP<br>Multi-label classification<br>News article analysis</div>
-      </div>
-      <div class="proj-arrow" style="color:#111">↗</div>
-      <div class="proj-bg" style="color:#111">AI</div>
-    </div>
-    <div class="proj p2 reveal delay-1">
-      <div>
-        <div class="proj-num" style="color:#111">02 / ML · WEB</div>
-        <div class="proj-icon">💻</div>
-        <div class="proj-name" style="color:#111">FindMyPC<br>Price Engine</div>
-        <div class="proj-tech" style="color:#111">Random Forest · Streamlit<br>Price prediction · Python<br>Web deployment</div>
-      </div>
-      <div class="proj-arrow" style="color:#111">↗</div>
-      <div class="proj-bg" style="color:#111">ML</div>
-    </div>
-    <div class="proj p3 reveal delay-2">
-      <div>
-        <div class="proj-num" style="color:rgba(255,255,255,0.4)">03 / CLOUD · FULL-STACK</div>
-        <div class="proj-icon">☁️</div>
-        <div class="proj-name" style="color:#fff">Expense<br>Manager</div>
-        <div class="proj-tech" style="color:rgba(255,255,255,0.5)">React · Azure · REST API<br>Full-stack web app<br>Cloud deployment</div>
-      </div>
-      <div class="proj-arrow" style="color:#fff">↗</div>
-      <div class="proj-bg" style="color:#fff">$</div>
-    </div>
-    <div class="proj p4 reveal delay-3">
-      <div>
-        <div class="proj-num" style="color:#555">04 / iOS · MOBILE</div>
-        <div class="proj-icon">📍</div>
-        <div class="proj-name" style="color:#f0ec3a">MapMy<br>Culture</div>
-        <div class="proj-tech" style="color:#555">SwiftUI · iOS · MapKit<br>Cultural discovery app<br>Kode with Klossy</div>
-      </div>
-      <div class="proj-arrow" style="color:#f0ec3a">↗</div>
-      <div class="proj-bg" style="color:#f0ec3a">✦</div>
-    </div>
-    <div class="proj p5 reveal delay-4">
-      <div>
-        <div class="proj-num" style="color:#111">05 / ALGORITHMS</div>
-        <div class="proj-icon">⚙️</div>
-        <div class="proj-name" style="color:#111">Data<br>Structures<br>Library</div>
-        <div class="proj-tech" style="color:#111">Java · OOP · Generics<br>Custom implementations<br>Sorting · Trees · Graphs</div>
-      </div>
-      <div class="proj-arrow" style="color:#111">↗</div>
-      <div class="proj-bg" style="color:#111">{}  </div>
-    </div>
-    <div class="proj p6 reveal delay-5">
-      <div>
-        <div class="proj-num" style="color:rgba(255,255,255,0.4)">06 / SYSTEMS</div>
-        <div class="proj-icon">🔧</div>
-        <div class="proj-name" style="color:#fff">Mini Shell<br>OS</div>
-        <div class="proj-tech" style="color:rgba(255,255,255,0.5)">C · Linux · POSIX<br>Process management<br>System programming</div>
-      </div>
-      <div class="proj-arrow" style="color:#fff">↗</div>
-      <div class="proj-bg" style="color:#fff">C</div>
-    </div>
-  </section>
-
-  <!-- ===== ABOUT STATEMENT ===== -->
-  <section class="about-statement" id="about">
-    <div class="about-bg-text">BUILDER</div>
-    <div class="about-big reveal">
-      I DON'T JUST<br>
-      <span class="out">WRITE CODE</span> —<br>
-      I MAKE THINGS THAT<br>
-      FEEL <span class="red">INTENTIONAL</span><br>
-      <span class="blue">& LOOK</span> <span class="out">ALIVE</span>
-    </div>
-  </section>
-
-  <!-- ===== SKILLS ===== -->
-  <div class="section-bar">
-    <div class="section-bar-text reveal">Skills & Tools</div>
-    <div class="section-bar-num reveal delay-1">Everything I work with</div>
+  <div class="hero-bg-text">MJ</div>
+  <div class="hero-strip">
+    <div class="hs reveal"><div class="hs-label">Status</div><div class="hs-val">Open to Work</div></div>
+    <div class="hs reveal d1"><div class="hs-label">University</div><div class="hs-val">IE University</div></div>
+    <div class="hs reveal d2"><div class="hs-label">Based in</div><div class="hs-val">Madrid, Spain</div></div>
+    <div class="hs reveal d3"><div class="hs-label">From</div><div class="hs-val">Venezuela 🇻🇪</div></div>
   </div>
+</section>
 
-  <section class="skills-grid">
-    <div class="skill-col sc1 reveal">
-      <div class="skill-col-title" style="color:#fff">Languages</div>
-      <div class="skill-tag-wrap">
-        <span class="skill-tag">Java</span>
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">C</span>
-        <span class="skill-tag">JavaScript</span>
-        <span class="skill-tag">Swift</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">HTML</span>
-        <span class="skill-tag">CSS</span>
-        <span class="skill-tag">Bash</span>
-      </div>
-    </div>
-    <div class="skill-col sc2 reveal delay-1">
-      <div class="skill-col-title" style="color:#f0ec3a">ML & Data</div>
-      <div class="skill-tag-wrap">
-        <span class="skill-tag">PyTorch</span>
-        <span class="skill-tag">scikit-learn</span>
-        <span class="skill-tag">NumPy</span>
-        <span class="skill-tag">Pandas</span>
-        <span class="skill-tag">Streamlit</span>
-        <span class="skill-tag">NLP</span>
-        <span class="skill-tag">RoBERTa</span>
-        <span class="skill-tag">Random Forest</span>
-        <span class="skill-tag">Transformers</span>
-      </div>
-    </div>
-    <div class="skill-col sc3 reveal delay-2">
-      <div class="skill-col-title" style="color:#fff">Cloud & DevOps</div>
-      <div class="skill-tag-wrap">
-        <span class="skill-tag">AWS</span>
-        <span class="skill-tag">Azure</span>
-        <span class="skill-tag">Serverless</span>
-        <span class="skill-tag">AWS Compute</span>
-        <span class="skill-tag">AWS Storage</span>
-        <span class="skill-tag">Git</span>
-        <span class="skill-tag">GitHub</span>
-        <span class="skill-tag">Docker</span>
-        <span class="skill-tag">Linux</span>
-      </div>
-    </div>
-    <div class="skill-col sc4 reveal delay-3">
-      <div class="skill-col-title" style="color:#111">Frameworks & Tools</div>
-      <div class="skill-tag-wrap">
-        <span class="skill-tag skill-tag-dark">React</span>
-        <span class="skill-tag skill-tag-dark">SwiftUI</span>
-        <span class="skill-tag skill-tag-dark">Node.js</span>
-        <span class="skill-tag skill-tag-dark">REST APIs</span>
-        <span class="skill-tag skill-tag-dark">MySQL</span>
-        <span class="skill-tag skill-tag-dark">PostgreSQL</span>
-        <span class="skill-tag skill-tag-dark">VS Code</span>
-        <span class="skill-tag skill-tag-dark">IntelliJ</span>
-        <span class="skill-tag skill-tag-dark">Figma</span>
-      </div>
-    </div>
-  </section>
+<!-- COLOR CELLS -->
+<div class="cells-row">
+  <div class="cell c-red reveal"><div class="cell-label">Year</div><div><div class="cell-big">3RD<br>YEAR</div><div class="cell-small">CS / AI</div></div><div class="cell-ghost">3</div></div>
+  <div class="cell c-blue reveal d1"><div class="cell-label">Focus</div><div><div class="cell-big">ML<br>CLOUD<br>DEV</div></div><div class="cell-ghost">→</div></div>
+  <div class="cell c-green reveal d2"><div class="cell-label cell-label-dark">Projects</div><div><div class="cell-big cell-big-dark">06<br>BUILT</div><div class="cell-small cell-small-dark">ML · Cloud · Mobile</div></div><div class="cell-ghost cell-ghost-dark">6</div></div>
+  <div class="cell c-orange reveal d3"><div class="cell-label">AWS Certs</div><div><div class="cell-big">03<br>BADGES</div><div class="cell-small">Educate · 2024</div></div><div class="cell-ghost">✦</div></div>
+  <div class="cell c-pink reveal d4"><div class="cell-label cell-label-dark">Age</div><div><div class="cell-big cell-big-dark">20<br>Y/O</div><div class="cell-small cell-small-dark">Venezuelan · Madrid</div></div><div class="cell-ghost cell-ghost-dark">!</div></div>
+</div>
 
-  <!-- ===== BACKGROUND ===== -->
-  <div class="section-bar">
-    <div class="section-bar-text reveal">Background & Experience</div>
-    <div class="section-bar-num reveal delay-1">Education · Activities · Certs</div>
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-bg-ghost">MARIA</div>
+  <div class="about-giant reveal">
+    VENEZUELAN.<br>
+    <span class="white">20 YEARS OLD.</span><br>
+    LIVING IN <span class="red">MADRID.</span><br>
+    <span class="out">BUILDING</span> THE<br>
+    <span class="white">FUTURE.</span>
   </div>
+  <div class="about-detail-row">
+    <div class="about-text-block reveal-left">
+      <p>I'm <strong>Maria Jose Colmenarez</strong> — a <em>Venezuelan</em> CS & AI student at <strong>IE University in Madrid</strong>. I'm 20 years old and I've been building things with code since before I knew what a compiler was.</p>
+      <p>I work across the full stack — from <strong>machine learning models</strong> that actually ship, to <strong>cloud infrastructure</strong>, to software that people use every day. <em>Java</em> is my first love. Python is my weapon. C taught me how computers really think.</p>
+      <p>I care as much about how things <strong>look and feel</strong> as how they work. Design is not decoration — it's communication. Everything I build should <em>say something</em>.</p>
+      <div class="about-flags">
+        <span class="flag-tag active">🇻🇪 Venezuelan</span>
+        <span class="flag-tag active">📍 Madrid</span>
+        <span class="flag-tag">IE University</span>
+        <span class="flag-tag">3rd Year · CS/AI</span>
+      </div>
+    </div>
+    <div class="about-quote-block reveal-right">
+      <div>
+        <div class="about-big-quote">"CODE IS MY<br>CANVAS. <span>DATA</span><br>IS MY PAINT."</div>
+        <div class="about-quote-sub">— Maria Jose Colmenarez · CS & AI · 2026</div>
+      </div>
+      <div class="about-stats-mini">
+        <div class="mini-stat"><div class="mini-num">06</div><div class="mini-label">Projects shipped</div></div>
+        <div class="mini-stat"><div class="mini-num">03</div><div class="mini-label">AWS badges</div></div>
+        <div class="mini-stat"><div class="mini-num">20</div><div class="mini-label">Years young</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section class="background-grid">
-    <div class="bg-main reveal-left">
-      <div class="bg-section-label">Education & Activities</div>
+<!-- PROJECTS -->
+<section class="projects-section" id="projects">
+  <div class="proj-header">
+    <div class="proj-header-title reveal">Selected<br>Projects</div>
+    <div class="proj-header-sub reveal d2">06 Works · 2023—2026</div>
+  </div>
+  <div class="proj-mosaic">
+    <div class="proj-card pc-white reveal">
+      <div><div class="proj-idx" style="color:#111">01 / NLP · MACHINE LEARNING</div><div class="proj-icon">🧠</div><div class="proj-name" style="color:#111">Propaganda<br>Technique<br>Detector</div><div class="proj-tech" style="color:#111">RoBERTa · PyTorch · NLP<br>Multi-label classification · News analysis</div></div>
+      <div class="proj-arrow" style="color:#111">↗</div><div class="proj-ghost" style="color:#111">AI</div>
+    </div>
+    <div class="proj-card pc-pink reveal d1">
+      <div><div class="proj-idx" style="color:#111">02 / ML · WEB</div><div class="proj-icon">💻</div><div class="proj-name" style="color:#111">FindMyPC<br>Price Engine</div><div class="proj-tech" style="color:#111">Random Forest · Streamlit<br>Price prediction · Python</div></div>
+      <div class="proj-arrow" style="color:#111">↗</div><div class="proj-ghost" style="color:#111">ML</div>
+    </div>
+    <div class="proj-card pc-purple reveal d2">
+      <div><div class="proj-idx" style="color:rgba(255,255,255,0.5)">03 / CLOUD · FULL-STACK</div><div class="proj-icon">☁️</div><div class="proj-name" style="color:#fff">Expense<br>Manager</div><div class="proj-tech" style="color:rgba(255,255,255,0.8)">React · Azure · REST API<br>Full-stack · Cloud deployment</div></div>
+      <div class="proj-arrow" style="color:#fff">↗</div><div class="proj-ghost" style="color:#fff">$</div>
+    </div>
+    <div class="proj-card pc-black reveal d3">
+      <div><div class="proj-idx" style="color:#555">04 / iOS · MOBILE</div><div class="proj-icon">📍</div><div class="proj-name" style="color:#f0ec3a">MapMy<br>Culture</div><div class="proj-tech" style="color:#666">SwiftUI · iOS · MapKit<br>Cultural discovery · Kode with Klossy</div></div>
+      <div class="proj-arrow" style="color:#f0ec3a">↗</div><div class="proj-ghost" style="color:#f0ec3a">✦</div>
+    </div>
+    <div class="proj-card pc-green reveal d4">
+      <div><div class="proj-idx" style="color:#111">05 / ALGORITHMS · JAVA</div><div class="proj-icon">⚙️</div><div class="proj-name" style="color:#111">Data Structures<br>Library</div><div class="proj-tech" style="color:#111">Java · OOP · Generics<br>Trees · Graphs · Sorting</div></div>
+      <div class="proj-arrow" style="color:#111">↗</div><div class="proj-ghost" style="color:#111">{}</div>
+    </div>
+    <div class="proj-card pc-orange no-right reveal d5">
+      <div><div class="proj-idx" style="color:rgba(255,255,255,0.5)">06 / SYSTEMS · C</div><div class="proj-icon">🔧</div><div class="proj-name" style="color:#fff">Mini Shell<br>OS</div><div class="proj-tech" style="color:rgba(255,255,255,0.8)">C · Linux · POSIX<br>Process management · Systems programming</div></div>
+      <div class="proj-arrow" style="color:#fff">↗</div><div class="proj-ghost" style="color:#fff">C</div>
+    </div>
+  </div>
+</section>
 
+<!-- SKILLS -->
+<section class="skills-section">
+  <div class="skills-header"><div class="skills-header-title reveal">EVERYTHING<br>I <span class="yellow">WORK</span> WITH</div></div>
+  <div class="skills-grid">
+    <div class="skill-block sb-blue reveal">
+      <div class="skill-block-title" style="color:#fff">Languages</div>
+      <div class="tags"><span class="tag">Java</span><span class="tag">Python</span><span class="tag">C</span><span class="tag">JavaScript</span><span class="tag">Swift</span><span class="tag">SQL</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Bash</span></div>
+    </div>
+    <div class="skill-block sb-dark reveal d1">
+      <div class="skill-block-title" style="color:#f0ec3a">ML & Data</div>
+      <div class="tags"><span class="tag">PyTorch</span><span class="tag">scikit-learn</span><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">Streamlit</span><span class="tag">NLP</span><span class="tag">RoBERTa</span><span class="tag">Random Forest</span><span class="tag">Transformers</span></div>
+    </div>
+    <div class="skill-block sb-red reveal d2">
+      <div class="skill-block-title" style="color:#fff">Cloud & DevOps</div>
+      <div class="tags"><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Serverless</span><span class="tag">AWS Compute</span><span class="tag">AWS Storage</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span><span class="tag">Linux</span></div>
+    </div>
+    <div class="skill-block sb-yellow reveal d3">
+      <div class="skill-block-title" style="color:#111">Frameworks & Tools</div>
+      <div class="tags"><span class="tag tag-dark">React</span><span class="tag tag-dark">SwiftUI</span><span class="tag tag-dark">Node.js</span><span class="tag tag-dark">REST APIs</span><span class="tag tag-dark">MySQL</span><span class="tag tag-dark">PostgreSQL</span><span class="tag tag-dark">VS Code</span><span class="tag tag-dark">IntelliJ</span><span class="tag tag-dark">Figma</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- AIMS -->
+<section class="aims-section">
+  <div class="aims-header"><div class="aims-header-title reveal">WHAT I'M<br><span class="out">AIMING</span> FOR</div></div>
+  <div class="aims-grid">
+    <div class="aim a-black reveal-left">
+      <div class="aim-num-bg" style="color:#fff">01</div>
+      <div class="aim-icon">🤖</div>
+      <div class="aim-title" style="color:#f0ec3a">ML & AI<br>Engineering</div>
+      <div class="aim-body" style="color:#ccc">Building models that actually work in production. I want to be in teams where NLP, computer vision, or recommendation systems are solving real problems — not just Kaggle exercises. I want to ship, learn, and break things fast.</div>
+    </div>
+    <div class="aim a-red reveal d1">
+      <div class="aim-num-bg" style="color:#fff">02</div>
+      <div class="aim-icon">⚡</div>
+      <div class="aim-title" style="color:#fff">Software<br>Development</div>
+      <div class="aim-body" style="color:#fff">Backend, full-stack, or systems roles. Java is my first love — I want to build scalable, clean architecture that lasts. I care about design patterns, performance, and code that reads like prose.</div>
+    </div>
+    <div class="aim a-yellow reveal-right">
+      <div class="aim-num-bg" style="color:#111">03</div>
+      <div class="aim-icon">☁️</div>
+      <div class="aim-title" style="color:#111">Cloud &<br>DevOps</div>
+      <div class="aim-body" style="color:#111">AWS and Azure have made me genuinely curious about infrastructure at scale. I want to understand deployments, pipelines, and distributed systems — the invisible layer that makes everything else possible.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKGROUND -->
+<section class="bg-section">
+  <div class="bg-header"><div class="bg-header-title reveal">BACKGROUND<br>& <span class="red">EXPERIENCE</span></div></div>
+  <div class="bg-grid">
+    <div class="bg-left reveal-left">
       <div class="bg-item">
         <div class="bg-role">B.Sc. Computer Science & Artificial Intelligence</div>
         <div class="bg-where">IE University · Madrid, Spain · 2023 – 2027</div>
-        <div class="bg-desc">Studying algorithms, machine learning, databases, cloud computing, systems programming, and software engineering. Coursework spans Python, Java, C, and applied AI.</div>
+        <div class="bg-desc">Studying algorithms, machine learning, databases, cloud computing, systems programming, and software engineering. Coursework spans Python, Java, C, and applied AI. One of the few international CS/AI programs in Europe with a strong entrepreneurial edge.</div>
       </div>
-
       <div class="bg-item">
         <div class="bg-role">Kode With Klossy — Scholar & iOS Developer</div>
         <div class="bg-where">Kode With Klossy · 2023</div>
-        <div class="bg-desc">Selected scholar in a competitive coding programme for young women. Built MapMyCulture, an iOS app using SwiftUI and MapKit for cultural community discovery.</div>
+        <div class="bg-desc">Selected as a scholar in a competitive coding programme empowering young women in tech. Built MapMyCulture — an iOS app using SwiftUI and MapKit that helps communities discover and share cultural spaces around them.</div>
       </div>
-
       <div class="bg-item">
         <div class="bg-role">AWS Educate — Cloud Certifications</div>
         <div class="bg-where">Amazon Web Services · 2024</div>
-        <div class="bg-desc">Earned three AWS Educate badges: Serverless, Compute, and Storage. Practical knowledge of cloud architecture, deployment, and infrastructure design.</div>
+        <div class="bg-desc">Earned three AWS Educate badges: Serverless, Compute, and Storage. Practical hands-on knowledge of cloud architecture, deployment patterns, and infrastructure design on the world's leading cloud platform.</div>
       </div>
-
       <div class="bg-item">
-        <div class="bg-role">Seeking Internship Opportunities</div>
-        <div class="bg-where">ML · Software Engineering · Cloud · 2026</div>
-        <div class="bg-desc">Open to internship roles across machine learning engineering, backend software development, cloud/DevOps, and data engineering. Available to work across Europe and beyond.</div>
+        <div class="bg-role">Seeking Internship — 2026</div>
+        <div class="bg-where">ML · Software Engineering · Cloud · Data Engineering</div>
+        <div class="bg-desc">Actively looking for internship roles in machine learning, backend software development, cloud/DevOps, or data engineering. Available across Europe and open to remote.</div>
       </div>
     </div>
-
-    <div class="bg-stat1 reveal delay-1">
-      <div>
-        <div class="bg-section-label" style="color:rgba(255,255,255,0.35)">Projects Built</div>
-        <div class="stat-num">06</div>
-        <div class="stat-label">Across ML, Cloud, Mobile, Systems</div>
-      </div>
+    <div class="bg-right">
+      <div class="bg-stat bs-purple reveal d1"><div class="stat-lbl">Projects Built</div><div class="stat-n">06</div><div class="stat-sub">ML · Cloud · Mobile · Systems</div></div>
+      <div class="bg-stat bs-pink reveal d2"><div class="stat-lbl stat-lbl-dark">AWS Badges</div><div class="stat-n stat-n-dark">03</div><div class="stat-sub stat-sub-dark">Educate Certifications</div></div>
+      <div class="bg-stat bs-green reveal d3"><div class="stat-lbl stat-lbl-dark">Languages</div><div class="stat-n stat-n-dark">9+</div><div class="stat-sub stat-sub-dark">Programming tools</div></div>
+      <div class="bg-stat bs-orange reveal d4"><div class="stat-lbl">Age</div><div class="stat-n">20</div><div class="stat-sub">Venezuelan · Madrid</div></div>
     </div>
-    <div class="bg-stat2 reveal delay-2">
-      <div>
-        <div class="bg-section-label" style="color:rgba(0,0,0,0.35)">AWS Badges</div>
-        <div class="stat-num dark">03</div>
-        <div class="stat-label dark">Educate Certifications</div>
-      </div>
-    </div>
-    <div class="bg-stat3 reveal delay-1">
-      <div>
-        <div class="bg-section-label" style="color:rgba(0,0,0,0.35)">Languages</div>
-        <div class="stat-num dark">09</div>
-        <div class="stat-label dark">Programming languages & tools</div>
-      </div>
-    </div>
-    <div class="bg-stat4 reveal delay-2">
-      <div>
-        <div class="bg-section-label" style="color:rgba(255,255,255,0.35)">Year</div>
-        <div class="stat-num">3RD</div>
-        <div class="stat-label">CS & AI @ IE University</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== WHAT I'M AIMING FOR ===== -->
-  <div class="section-bar">
-    <div class="section-bar-text reveal">What I'm Looking For</div>
-    <div class="section-bar-num reveal delay-1">Goals · Internships · 2026</div>
   </div>
+</section>
 
-  <section class="aims">
-    <div class="aim-cell ac1 reveal-left">
-      <div class="aim-num">01</div>
-      <div class="aim-icon">🤖</div>
-      <div class="aim-title" style="color:#f0ec3a">ML & AI<br>Engineering</div>
-      <div class="aim-body" style="color:#ccc">Building models that actually work in production. I want to be in teams where NLP, computer vision, or recommendation systems are solving real problems — not just Kaggle datasets.</div>
-    </div>
-    <div class="aim-cell ac2 reveal delay-1">
-      <div class="aim-num" style="color:rgba(255,255,255,0.05)">02</div>
-      <div class="aim-icon">⚡</div>
-      <div class="aim-title" style="color:#fff">Software<br>Development</div>
-      <div class="aim-body" style="color:#fff">Backend, full-stack, or systems roles. Java is my first love — I want to build scalable, clean systems. I care about architecture, not just making things work.</div>
-    </div>
-    <div class="aim-cell ac3 reveal-right">
-      <div class="aim-num aim-num-dark">03</div>
-      <div class="aim-icon">☁️</div>
-      <div class="aim-title" style="color:#111">Cloud &<br>DevOps</div>
-      <div class="aim-body" style="color:#111">AWS and Azure exposure has made me curious about infrastructure. I want to understand how things scale — deployments, pipelines, distributed systems. The part most devs ignore.</div>
-    </div>
-  </section>
-
-  <!-- ===== CONTACT ===== -->
-  <div class="section-bar" id="contact">
-    <div class="section-bar-text reveal">Contact</div>
-    <div class="section-bar-num reveal delay-1">Let's build something</div>
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-top reveal">
+    <div class="contact-ghost">HELLO</div>
+    <div class="contact-title">LET'S<br>BUILD<br>SOMETHING.</div>
+    <div class="contact-subtitle">Open to internships · collaborations · cool projects · 2026</div>
   </div>
-
-  <section class="contact">
-    <div class="contact-left reveal-left">
-      <div class="contact-label">Get in touch</div>
-      <div class="contact-title">LET'S<br>WORK<br>TOGETHER.</div>
-
-      <div class="contact-item">
-        <div class="contact-icon">📧</div>
-        <div>
-          <div class="contact-type">Email</div>
-          <!-- REPLACE with your real email -->
-          <a href="mailto:mcolmenarez.ieu2023@student.ie.edu" class="contact-val">mcolmenarez.ieu2023@student.ie.edu</a>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-icon">📱</div>
-        <div>
-          <div class="contact-type">Phone / WhatsApp</div>
-          <!-- REPLACE with your real number -->
-          <a href="tel:+34663022411" class="contact-val">+34 663 022 411</a>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-icon">💼</div>
-        <div>
-          <div class="contact-type">LinkedIn</div>
-          <!-- REPLACE with your real LinkedIn URL -->
-          <a href="https://linkedin.com/in/maria-jose-colmenarez-ortiz" target="_blank" class="contact-val">linkedin.com/in/maria-jose-colmenarez-ortiz</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="contact-right reveal-right">
+  <div class="contact-grid">
+    <div class="contact-card cc-blue reveal">
       <div>
-        <div class="contact-right-label">Availability</div>
-        <div class="availability-block">
-          <div class="avail-status">OPEN NOW</div>
-          <div class="avail-desc">Internships · Part-time · Collaborative projects · 2026</div>
-        </div>
-
-        <div class="contact-right-label">Find me on</div>
-        <div class="contact-socials">
-          <!-- REPLACE mjcolmenarez with your username -->
-          <a href="https://github.com/mjcolmenarez" target="_blank" class="social-link">
-            GitHub <span>→</span>
-          </a>
-          <a href="https://linkedin.com/in/maria-jose-colmenarez-ortiz" target="_blank" class="social-link">
-            LinkedIn <span>→</span>
-          </a>
-          <a href="mailto:mcolmenarez.ieu2023@student.ie.edu" class="social-link">
-            Email <span>→</span>
-          </a>
-        </div>
+        <div class="cc-label">Email</div>
+        <a href="mailto:mcolmenarez.ieu2023@student.ie.edu" class="cc-val">mcolmenarez.ieu2023<br>@student.ie.edu</a>
       </div>
-
       <div>
-        <div class="contact-right-label">Based in</div>
-        <div class="avail-status" style="font-size:24px; color:#444;">MADRID, SPAIN</div>
-        <div class="avail-desc">Open to remote · willing to relocate in Europe</div>
+        <div class="cc-label" style="margin-top:28px">Phone / WhatsApp</div>
+        <a href="tel:+34663022411" class="cc-val">+34 663 022 411</a>
       </div>
     </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="foot-logo">MJ.</div>
-    <div class="foot-mid">
-      <span>© 2026 · Maria Jose Colmenarez · CS & AI @ IE University</span>
+    <div class="contact-card cc-black reveal d1">
+      <div class="cc-label" style="color:#444; margin-bottom:16px">Find me on</div>
+      <div class="social-list">
+        <a href="https://github.com/mjcolmenarez" target="_blank" class="social-link">GitHub <span>→</span></a>
+        <a href="https://linkedin.com/in/maria-jose-colmenarez-ortiz" target="_blank" class="social-link">LinkedIn <span>→</span></a>
+        <a href="mailto:mcolmenarez.ieu2023@student.ie.edu" class="social-link">Email <span>→</span></a>
+      </div>
     </div>
-    <div class="foot-links">
-      <!-- REPLACE mjcolmenarez with your username -->
-      <a href="https://github.com/mjcolmenarez" target="_blank">GitHub</a>
-      <a href="https://linkedin.com/in/maria-jose-colmenarez-ortiz" target="_blank">LinkedIn</a>
-      <a href="mailto:mcolmenarez.ieu2023@student.ie.edu">Say Hello →</a>
+    <div class="contact-card cc-yellow reveal d2">
+      <div>
+        <div class="cc-label cc-label-dark">Availability</div>
+        <div class="avail-big">OPEN<br>NOW.</div>
+        <div class="avail-sub">Internships · Part-time · Remote · Europe · 2026</div>
+      </div>
+      <div>
+        <div class="cc-label cc-label-dark" style="margin-top:28px">Based in</div>
+        <div class="avail-big" style="font-size:34px">MADRID,<br>SPAIN 🇪🇸</div>
+        <div class="avail-sub">Originally from Venezuela 🇻🇪</div>
+      </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- ===== JS: CURSOR + SCROLL REVEAL ===== -->
-  <script>
-    // Custom cursor
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="foot-logo">MJ.</div>
+  <div class="foot-mid"><div class="foot-copy">© 2026 · Maria Jose Colmenarez · CS & AI @ IE University · Made with code & obsession</div></div>
+  <div class="foot-links">
+    <a href="https://github.com/mjcolmenarez" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/maria-jose-colmenarez-ortiz" target="_blank">LinkedIn</a>
+    <a href="mailto:mcolmenarez.ieu2023@student.ie.edu">Say Hello →</a>
+  </div>
+</footer>
 
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cursor.style.transform=`translate(${mx-7}px,${my-7}px)`;
+  });
+  (function animRing(){
+    rx+=(mx-rx-20)*0.1; ry+=(my-ry-20)*0.1;
+    ring.style.transform=`translate(${rx}px,${ry}px)`;
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button,.proj-card,.hbtn').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='64px';ring.style.height='64px';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='40px';ring.style.height='40px';});
+  });
+
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>obs.observe(el));
+
+  function countUp(el,target,dur=1400){
+    let s=0;
+    const step=ts=>{
+      if(!s)s=ts;
+      const p=Math.min((ts-s)/dur,1);
+      const ease=1-Math.pow(1-p,3);
+      const val=Math.floor(ease*target);
+      el.textContent=target>=10?String(val).padStart(2,'0'):val;
+      if(p<1)requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  const numObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const n=parseInt(e.target.textContent);
+        if(!isNaN(n)){countUp(e.target,n);numObs.unobserve(e.target);}
+      }
     });
-
-    function animateRing() {
-      rx += (mx - rx - 18) * 0.12;
-      ry += (my - ry - 18) * 0.12;
-      ring.style.transform = `translate(${rx}px, ${ry}px)`;
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button, .proj, .hbtn').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform += ' scale(2)';
-        ring.style.width = '60px'; ring.style.height = '60px';
-      });
-      el.addEventListener('mouseleave', () => {
-        ring.style.width = '36px'; ring.style.height = '36px';
-      });
-    });
-
-    // Scroll reveal with IntersectionObserver
-    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.12 });
-
-    revealEls.forEach(el => observer.observe(el));
-
-    // Big number counter animation on scroll
-    function animateCounter(el, target, duration = 1200) {
-      let start = 0;
-      const step = (timestamp) => {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = String(Math.floor(eased * target)).padStart(2, '0');
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }
-
-    const statNums = document.querySelectorAll('.stat-num');
-    const statObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const text = entry.target.textContent.trim();
-          const num = parseInt(text);
-          if (!isNaN(num)) animateCounter(entry.target, num);
-          statObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    statNums.forEach(el => {
-      if (!isNaN(parseInt(el.textContent))) statObserver.observe(el);
-    });
-  </script>
+  },{threshold:0.5});
+  document.querySelectorAll('.stat-n,.mini-num').forEach(el=>{
+    if(!isNaN(parseInt(el.textContent)))numObs.observe(el);
+  });
+</script>
 </body>
 </html>
