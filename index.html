@@ -145,6 +145,27 @@
     .tag-dark { border-color: rgba(0,0,0,0.45) !important; color: #111 !important; }
     .tag-dark:hover { background: rgba(0,0,0,0.08) !important; }
 
+    /* BIG SCROLLING SKILL ROWS */
+    .skill-row { display: flex; align-items: stretch; border-bottom: 4px solid #222; overflow: hidden; position: relative; }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-row-label { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); padding: 24px 18px; border-right: 4px solid #222; color: #444; flex-shrink: 0; display: flex; align-items: center; background: #111; }
+    .skill-scroll-wrap { overflow: hidden; flex: 1; display: flex; align-items: center; }
+    .skill-scroll { display: flex; align-items: center; animation: skillscroll 18s linear infinite; white-space: nowrap; }
+    .skill-scroll-rev { animation-direction: reverse; animation-duration: 22s; }
+    .skill-scroll-slow { animation-duration: 28s; }
+    @keyframes skillscroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+    .skill-row:hover .skill-scroll { animation-play-state: paused; }
+    .sk { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,4.5vw,72px); letter-spacing: 0.01em; padding: 22px 36px; border-right: 4px solid #222; white-space: nowrap; transition: background 0.15s, color 0.15s; cursor: default; line-height: 1; }
+    .sk-dot { font-size: 20px; padding: 22px 24px; border-right: 4px solid #222; color: #333; line-height: 1; flex-shrink: 0; }
+    .row-blue .sk { color: #0057ff; background: #111; } .row-blue .sk:hover { background: #0057ff; color: #fff; }
+    .row-orange .sk { color: #ff6a00; background: #111; } .row-orange .sk:hover { background: #ff6a00; color: #fff; }
+    .row-pink .sk { color: #ff6bce; background: #111; } .row-pink .sk:hover { background: #ff6bce; color: #111; }
+    .row-green .sk { color: #00c87a; background: #111; } .row-green .sk:hover { background: #00c87a; color: #111; }
+    .row-purple .sk { color: #7c3aed; background: #111; } .row-purple .sk:hover { background: #7c3aed; color: #fff; }
+    .row-red .sk { color: #e82c2c; background: #111; } .row-red .sk:hover { background: #e82c2c; color: #fff; }
+    .row-white .sk { color: #fff; background: #111; } .row-white .sk:hover { background: #fff; color: #111; }
+    .row-yellow .sk { color: #f0ec3a; background: #111; } .row-yellow .sk:hover { background: #f0ec3a; color: #111; }
+
     /* AIMS */
     .aims-section { border-bottom: 4px solid #111; }
     .aims-header { background: #111; padding: 60px 48px 0; }
@@ -368,26 +389,57 @@
 <!-- SKILLS -->
 <section class="skills-section">
   <div class="skills-header"><div class="skills-header-title reveal">EVERYTHING<br>I <span class="yellow">WORK</span> WITH</div></div>
-  <div class="skills-grid">
-    <div class="skill-block sb-blue reveal">
-      <div class="skill-block-title" style="color:#fff">Languages</div>
-      <div class="tags"><span class="tag">Java</span><span class="tag">Python</span><span class="tag">C</span><span class="tag">JavaScript</span><span class="tag">Swift</span><span class="tag">SQL</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Bash</span></div>
-      <div class="skill-block-title" style="color:rgba(255,255,255,0.45); font-size:22px; margin-top:24px; margin-bottom:14px;">Human Languages</div>
-      <div class="tags"><span class="tag">Spanish (Native)</span><span class="tag">English (Fluent)</span></div>
-    </div>
-    <div class="skill-block sb-orange reveal d1">
-      <div class="skill-block-title" style="color:#fff">ML & Data</div>
-      <div class="tags"><span class="tag">PyTorch</span><span class="tag">scikit-learn</span><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">Streamlit</span><span class="tag">NLP</span><span class="tag">RoBERTa</span><span class="tag">HuggingFace</span><span class="tag">Random Forest</span><span class="tag">Transformers</span><span class="tag">Jupyter</span></div>
-    </div>
-    <div class="skill-block sb-purple reveal d2">
-      <div class="skill-block-title" style="color:#fff">Cloud & DevOps</div>
-      <div class="tags"><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Serverless</span><span class="tag">AWS Compute</span><span class="tag">AWS Storage</span><span class="tag">Azure Blob Storage</span><span class="tag">Function Apps</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span><span class="tag">Linux</span><span class="tag">CI/CD</span></div>
-    </div>
-    <div class="skill-block sb-green reveal d3">
-      <div class="skill-block-title" style="color:#111">Frameworks & Tools</div>
-      <div class="tags"><span class="tag tag-dark">React</span><span class="tag tag-dark">SwiftUI</span><span class="tag tag-dark">Node.js</span><span class="tag tag-dark">REST APIs</span><span class="tag tag-dark">MySQL</span><span class="tag tag-dark">PostgreSQL</span><span class="tag tag-dark">VS Code</span><span class="tag tag-dark">IntelliJ</span><span class="tag tag-dark">Figma</span><span class="tag tag-dark">Jupyter</span><span class="tag tag-dark">Arduino</span><span class="tag tag-dark">Raspberry Pi</span></div>
+
+  <div class="skill-row row-blue reveal">
+    <div class="skill-row-label">Languages</div>
+    <div class="skill-scroll-wrap">
+      <div class="skill-scroll">
+        <span class="sk">Java</span><span class="sk-dot">✦</span><span class="sk">Python</span><span class="sk-dot">✦</span><span class="sk">C</span><span class="sk-dot">✦</span><span class="sk">JavaScript</span><span class="sk-dot">✦</span><span class="sk">Swift</span><span class="sk-dot">✦</span><span class="sk">SQL</span><span class="sk-dot">✦</span><span class="sk">HTML</span><span class="sk-dot">✦</span><span class="sk">CSS</span><span class="sk-dot">✦</span><span class="sk">Bash</span><span class="sk-dot">✦</span>
+        <span class="sk">Java</span><span class="sk-dot">✦</span><span class="sk">Python</span><span class="sk-dot">✦</span><span class="sk">C</span><span class="sk-dot">✦</span><span class="sk">JavaScript</span><span class="sk-dot">✦</span><span class="sk">Swift</span><span class="sk-dot">✦</span><span class="sk">SQL</span><span class="sk-dot">✦</span><span class="sk">HTML</span><span class="sk-dot">✦</span><span class="sk">CSS</span><span class="sk-dot">✦</span><span class="sk">Bash</span><span class="sk-dot">✦</span>
+      </div>
     </div>
   </div>
+
+  <div class="skill-row row-orange reveal skill-scroll-rev">
+    <div class="skill-row-label">ML & Data</div>
+    <div class="skill-scroll-wrap">
+      <div class="skill-scroll skill-scroll-rev">
+        <span class="sk">PyTorch</span><span class="sk-dot">✦</span><span class="sk">scikit-learn</span><span class="sk-dot">✦</span><span class="sk">NumPy</span><span class="sk-dot">✦</span><span class="sk">Pandas</span><span class="sk-dot">✦</span><span class="sk">Streamlit</span><span class="sk-dot">✦</span><span class="sk">NLP</span><span class="sk-dot">✦</span><span class="sk">RoBERTa</span><span class="sk-dot">✦</span><span class="sk">HuggingFace</span><span class="sk-dot">✦</span><span class="sk">Random Forest</span><span class="sk-dot">✦</span><span class="sk">Transformers</span><span class="sk-dot">✦</span>
+        <span class="sk">PyTorch</span><span class="sk-dot">✦</span><span class="sk">scikit-learn</span><span class="sk-dot">✦</span><span class="sk">NumPy</span><span class="sk-dot">✦</span><span class="sk">Pandas</span><span class="sk-dot">✦</span><span class="sk">Streamlit</span><span class="sk-dot">✦</span><span class="sk">NLP</span><span class="sk-dot">✦</span><span class="sk">RoBERTa</span><span class="sk-dot">✦</span><span class="sk">HuggingFace</span><span class="sk-dot">✦</span><span class="sk">Random Forest</span><span class="sk-dot">✦</span><span class="sk">Transformers</span><span class="sk-dot">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-row row-purple reveal">
+    <div class="skill-row-label">Cloud & DevOps</div>
+    <div class="skill-scroll-wrap">
+      <div class="skill-scroll skill-scroll-slow">
+        <span class="sk">AWS</span><span class="sk-dot">✦</span><span class="sk">Azure</span><span class="sk-dot">✦</span><span class="sk">Serverless</span><span class="sk-dot">✦</span><span class="sk">AWS Compute</span><span class="sk-dot">✦</span><span class="sk">AWS Storage</span><span class="sk-dot">✦</span><span class="sk">Azure Blob Storage</span><span class="sk-dot">✦</span><span class="sk">Docker</span><span class="sk-dot">✦</span><span class="sk">Linux</span><span class="sk-dot">✦</span><span class="sk">Git</span><span class="sk-dot">✦</span><span class="sk">CI/CD</span><span class="sk-dot">✦</span>
+        <span class="sk">AWS</span><span class="sk-dot">✦</span><span class="sk">Azure</span><span class="sk-dot">✦</span><span class="sk">Serverless</span><span class="sk-dot">✦</span><span class="sk">AWS Compute</span><span class="sk-dot">✦</span><span class="sk">AWS Storage</span><span class="sk-dot">✦</span><span class="sk">Azure Blob Storage</span><span class="sk-dot">✦</span><span class="sk">Docker</span><span class="sk-dot">✦</span><span class="sk">Linux</span><span class="sk-dot">✦</span><span class="sk">Git</span><span class="sk-dot">✦</span><span class="sk">CI/CD</span><span class="sk-dot">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-row row-green reveal skill-scroll-rev">
+    <div class="skill-row-label">Frameworks</div>
+    <div class="skill-scroll-wrap">
+      <div class="skill-scroll skill-scroll-rev skill-scroll-slow">
+        <span class="sk">React</span><span class="sk-dot">✦</span><span class="sk">SwiftUI</span><span class="sk-dot">✦</span><span class="sk">Node.js</span><span class="sk-dot">✦</span><span class="sk">REST APIs</span><span class="sk-dot">✦</span><span class="sk">MySQL</span><span class="sk-dot">✦</span><span class="sk">PostgreSQL</span><span class="sk-dot">✦</span><span class="sk">Netlify</span><span class="sk-dot">✦</span><span class="sk">Figma</span><span class="sk-dot">✦</span><span class="sk">IntelliJ</span><span class="sk-dot">✦</span><span class="sk">VS Code</span><span class="sk-dot">✦</span>
+        <span class="sk">React</span><span class="sk-dot">✦</span><span class="sk">SwiftUI</span><span class="sk-dot">✦</span><span class="sk">Node.js</span><span class="sk-dot">✦</span><span class="sk">REST APIs</span><span class="sk-dot">✦</span><span class="sk">MySQL</span><span class="sk-dot">✦</span><span class="sk">PostgreSQL</span><span class="sk-dot">✦</span><span class="sk">Netlify</span><span class="sk-dot">✦</span><span class="sk">Figma</span><span class="sk-dot">✦</span><span class="sk">IntelliJ</span><span class="sk-dot">✦</span><span class="sk">VS Code</span><span class="sk-dot">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-row row-pink reveal">
+    <div class="skill-row-label">Hardware & Other</div>
+    <div class="skill-scroll-wrap">
+      <div class="skill-scroll">
+        <span class="sk">Arduino</span><span class="sk-dot">✦</span><span class="sk">Raspberry Pi</span><span class="sk-dot">✦</span><span class="sk">Spanish (Native)</span><span class="sk-dot">✦</span><span class="sk">English (Fluent)</span><span class="sk-dot">✦</span><span class="sk">Jupyter</span><span class="sk-dot">✦</span><span class="sk">GitHub</span><span class="sk-dot">✦</span>
+        <span class="sk">Arduino</span><span class="sk-dot">✦</span><span class="sk">Raspberry Pi</span><span class="sk-dot">✦</span><span class="sk">Spanish (Native)</span><span class="sk-dot">✦</span><span class="sk">English (Fluent)</span><span class="sk-dot">✦</span><span class="sk">Jupyter</span><span class="sk-dot">✦</span><span class="sk">GitHub</span><span class="sk-dot">✦</span>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- AIMS -->
